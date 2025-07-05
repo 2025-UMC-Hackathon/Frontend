@@ -36,7 +36,7 @@ export default function Header() {
 
 	// 기본 로고 헤더 ("/"인 경우)
 	return (
-		<div className="bg-white p-3 flex justify-center items-center h-16">
+		<div className="bg-white p-3 flex justify-start items-start h-16">
 			<Button width="w-auto" padding="p-0" backgroundColor="bg-0" onClick={() => { navigate('/') }}>
 				<img src={logo} alt="아이콘" className="w-[70px] h-[20px]" />
 			</Button>
