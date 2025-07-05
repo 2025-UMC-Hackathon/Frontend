@@ -16,7 +16,7 @@ export default function Header() {
 		'/signup': '회원가입',
 		'/community': '커뮤니티',
 		'/write': '글 작성하기',
-		'/chat': '대화'
+		'/chat': 'AI 채팅'
 	};
 
 	// 뒤로가기 버튼이 필요한 경로
