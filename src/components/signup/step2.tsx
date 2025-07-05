@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import TextField from '../LoginTextField';
+import TextField from '../TextField';
 import Button from '../button';
 import Modal from '../modal';
 import DatePickerWheel from './datePickerWheel';
