@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { BoardItem } from './BoardItem';
+import BoardItem from './BoardItem';
 import TagDropdown from '../dropdown'; // 기존 dropdown.tsx import
 import type { BoardItemProps } from './BoardItem';
 import { dummyBoard } from '../../../mockdata/dummyBoard';
