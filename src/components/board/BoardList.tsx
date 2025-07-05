@@ -1,49 +1,66 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import BoardItem from './BoardItem';
-import TagDropdown from '../dropdown'; // 기존 dropdown.tsx import
+import TagDropdown from '../dropdown';
 import type { BoardItemProps } from './BoardItem';
-import { dummyBoard } from '../../../mockdata/dummyBoard';
 import { useNavigate } from 'react-router-dom';
+import { serverCall } from '../utils/serverCall';
 
 const BoardList = () => {
+    const [posts, setPosts] = useState<BoardItemProps[]>([]);
+
     const [selectedDisabilityType, setSelectedDisabilityType] = useState<string[]>([]);
     const [selectedWorry, setSelectedWorry] = useState<string[]>([]);
 
     const navigate = useNavigate();
 
-    // 모든 고유한 태그들을 추출
-    const allDisabilityTypes = useMemo(() => {
-        const types = new Set<string>();
-        dummyBoard.forEach((item: BoardItemProps) => {
-            if (item.disabilityType) {
-                types.add(item.disabilityType);
-            }
-        });
-        return Array.from(types);
+    const fetchPosts = async () => {
+        try {
+            const postsData = await serverCall('GET', '/api/posts');
+            setPosts(postsData);
+        } catch (error:any){
+            console.log(error);
+            alert('postData 불러오기 실패');
+        }
+    };
+
+    useEffect(() => {
+        fetchPosts();
     }, []);
 
+
+    // 장애유형 태그 추출
+    const allDisabilityTypes = useMemo(() => {
+        const types = new Set<string>();
+        posts.forEach((item) => {
+            if (item.disabilityType) types.add(item.disabilityType);
+        });
+        return Array.from(types);
+    }, [posts]);
+
+    // 고민 유형 태그 추출
     const allWorries = useMemo(() => {
         const worries = new Set<string>();
-        dummyBoard.forEach((item: BoardItemProps) => {
-            if (item.worry) {
-                worries.add(item.worry);
-            }
+        posts.forEach((item) => {
+            if (item.worry) worries.add(item.worry);
         });
         return Array.from(worries);
-    }, []);
+    }, [posts]);
 
     // 필터링된 게시글 목록
     const filteredBoard = useMemo(() => {
-        return dummyBoard.filter((item: BoardItemProps) => {
-            const matchesDisabilityType = selectedDisabilityType.length === 0 || 
+    return posts.filter((item) => {
+            const matchesDisabilityType =
+                selectedDisabilityType.length === 0 ||
                 (item.disabilityType && selectedDisabilityType.includes(item.disabilityType));
-            const matchesWorry = selectedWorry.length === 0 || 
+            const matchesWorry =
+                selectedWorry.length === 0 ||
                 (item.worry && selectedWorry.includes(item.worry));
-            
+
             return matchesDisabilityType && matchesWorry;
         });
-    }, [selectedDisabilityType, selectedWorry]);
+    }, [posts, selectedDisabilityType, selectedWorry]);
 
+    
     return (
         <div className="w-full">
             {/* 필터 섹션 */}

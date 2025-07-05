@@ -12,7 +12,9 @@ export default function HomePage() {
 			<img src={logo_example} alt="로고 이미지"
 				className="w-auto h-[28px] self-start px-[16px]" />
 			
-			<h2 className="flex items-start px-[16px] mt-[32px] text-[20px] leading-[28px] font-semibold text-[#171D1E]">히로님을 위한 소식</h2>
+			<h2 className="flex items-start px-[16px] mt-[32px] text-[20px] leading-[28px] font-semibold text-[#171D1E]">
+				히로님을 위한 소식
+			</h2>
 			<img src={ic_landing_news} alt="유저를 위한 소식" 
 				className="mt-[8px] mb-[24px]" />
 
