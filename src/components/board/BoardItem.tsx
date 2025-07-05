@@ -1,8 +1,10 @@
-type BoardItemProps = {
+export type BoardItemProps = {
     title: string;
     content: string;
     createdAt: string;
     nickname: string;
+    disabilityType?: string;
+    worry?: string;
 };
 
 export const BoardItem = ({
@@ -10,6 +12,8 @@ export const BoardItem = ({
     content,
     createdAt,
     nickname,
+    disabilityType,
+    worry,
 }: BoardItemProps) => {
 
 
@@ -20,6 +24,25 @@ export const BoardItem = ({
                 <p className="text-[12px] font-semibold mb-[11px] line-clamp-2">
                     {content}
                 </p>
+                {/* 태그 섹션 */}
+                {(disabilityType || worry) && (
+                    <div className="flex flex-wrap gap-[6px] mb-[8px]">
+                        {disabilityType && (
+                            <span 
+                                className="px-[8px] py-[2px] bg-[#E8F4FD] text-[#0066CC] text-[10px] rounded-[12px] font-medium"
+                            >
+                                {disabilityType}
+                            </span>
+                        )}
+                        {worry && (
+                            <span 
+                                className="px-[8px] py-[2px] bg-[#FFF2E8] text-[#FF6B35] text-[10px] rounded-[12px] font-medium"
+                            >
+                                {worry}
+                            </span>
+                        )}
+                    </div>
+                )}
                 <div className="flex items-center text-[10px] gap-[7px] text-xs text-[#9C9C9C]">
                     <span>{createdAt}</span>
                     <span>|</span>

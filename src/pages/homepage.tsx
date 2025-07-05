@@ -1,10 +1,12 @@
 // 깃허브에서 이슈를 파고, dev에서 feature로 뻗어나가주세요!
+// = Board 페이지
 
 import { useState } from 'react';
-import { BoardItem } from '../components/board/BoardItem';
+// import { BoardItem } from '../components/board/BoardItem';
 import TagDropdown from '../components/dropdown';
 import ic_post from "../assets/ic_post.svg";
 import { useNavigate } from 'react-router-dom';
+import { BoardList } from '../components/board/BoardList';
 
 
 export default function Home() {
@@ -13,7 +15,7 @@ export default function Home() {
 	const navigate =useNavigate();
 
 	// 임시
-	const DisabilityType = [
+	const DisabilityTypes = [
 		{ label: '시각 장애', value: 'visual' },
 		{ label: '청각 장애', value: 'hearing' },
 		{ label: '지체 장애', value: 'physical' },
@@ -35,9 +37,11 @@ export default function Home() {
 
 	return (
 		<div className="flex flex-col items-start">
+			<div className="w-[348px] h-[90px] bg-[#D9D9D9] rounded-[10px] shadow-[0_0_4px_rgba(0,0,0,0.25)] mx-auto mt-[38px]" />
+
 			<div className="flex items-center gap-[11px] mb-[18px] ml-[18px] mt-[38px]">
 				<TagDropdown
-					tags={DisabilityType.map(type => type.label)}
+					tags={DisabilityTypes.map(type => type.label)}
 					selectedTags={selectedTag}
 					onTagChange={setSelectedTag}
 					selectionMode="single"
@@ -55,12 +59,7 @@ export default function Home() {
 			
 
 
-			<BoardItem 
-				title="Lorem ipsum (글 제목)"
-				content="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. . ."
-				createdAt="4분전"
-				nickname="닉네임"
-			/>
+			<BoardList />
 
 			{/* 추후에 글 작성 페이지 경로로 수정해야 함!!!!!!! */}
 			<button
