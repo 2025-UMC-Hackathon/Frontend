@@ -37,11 +37,12 @@ export default function Write() {
           const res = await serverCall('POST', '/api/post', {
             title,
             content,
-            selectedDisability,
-            selectedWorry,
+            types:[selectedDisability],
+            tags:[selectedWorry],
           });
           // 성공 시 처리 (예: 페이지 이동, 알림 등)
-          console.log('게시글 등록 성공:', res);
+          alert('게시글 등록 성공.');
+          console.log(res);
           navigate('/');
           // 예시: navigate('/community');
         } catch (error) {
