@@ -1,12 +1,12 @@
 import { useState, useMemo } from 'react';
 import { BoardItem } from './BoardItem';
-import { TagDropdown } from './TagDropdown';
+import TagDropdown from '../dropdown'; // 기존 dropdown.tsx import
 import type { BoardItemProps } from './BoardItem';
 import { dummyBoard } from '../../../mockdata/dummyBoard';
 
 export const BoardList = () => {
-    const [selectedDisabilityType, setSelectedDisabilityType] = useState<string>('');
-    const [selectedWorry, setSelectedWorry] = useState<string>('');
+    const [selectedDisabilityType, setSelectedDisabilityType] = useState<string[]>([]);
+    const [selectedWorry, setSelectedWorry] = useState<string[]>([]);
 
     // 모든 고유한 태그들을 추출
     const allDisabilityTypes = useMemo(() => {
@@ -32,10 +32,10 @@ export const BoardList = () => {
     // 필터링된 게시글 목록
     const filteredBoard = useMemo(() => {
         return dummyBoard.filter((item: BoardItemProps) => {
-            const matchesDisabilityType = !selectedDisabilityType || 
-                item.disabilityType === selectedDisabilityType;
-            const matchesWorry = !selectedWorry || 
-                item.worry === selectedWorry;
+            const matchesDisabilityType = selectedDisabilityType.length === 0 || 
+                (item.disabilityType && selectedDisabilityType.includes(item.disabilityType));
+            const matchesWorry = selectedWorry.length === 0 || 
+                (item.worry && selectedWorry.includes(item.worry));
             
             return matchesDisabilityType && matchesWorry;
         });
@@ -43,15 +43,24 @@ export const BoardList = () => {
 
     return (
         <div className="w-full">
-            {/* TagDropdown 컴포넌트 사용 */}
-            <TagDropdown
-                selectedDisabilityType={selectedDisabilityType}
-                selectedWorry={selectedWorry}
-                onDisabilityTypeChange={setSelectedDisabilityType}
-                onWorryChange={setSelectedWorry}
-                allDisabilityTypes={allDisabilityTypes}
-                allWorries={allWorries}
-            />
+            {/* 필터 섹션 */}
+            <div className="flex items-center gap-[11px] mb-[18px] ml-[18px] mt-[38px]">
+                <TagDropdown
+                    tags={allDisabilityTypes}
+                    selectedTags={selectedDisabilityType}
+                    onTagChange={setSelectedDisabilityType}
+                    selectionMode="single"
+                    placeholder="장애 유형"
+                />
+                
+                <TagDropdown
+                    tags={allWorries}
+                    selectedTags={selectedWorry}
+                    onTagChange={setSelectedWorry}
+                    selectionMode="single"
+                    placeholder="고민"
+                />
+            </div>
 
             {/* 게시글 목록 */}
             <div className="w-full">

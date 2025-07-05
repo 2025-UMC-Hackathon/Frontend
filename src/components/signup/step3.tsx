@@ -1,27 +1,20 @@
 import Button from "../button";
-import Modal from "../modal";
-import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import icon from '../../assets/check_small.svg';
 
 export default function Step3() {
 	const navigate = useNavigate();
-	const [open, setOpen] = useState(false);
-
-	// 렌더링 시 모달이 열림 
-	useEffect(() => {
-		setOpen(true);
-	}, []);
 
 	return (
-		<div className="w-full max-w-md flex flex-col items-center justify-center gap-4">
-			{open && (
-				<Modal onClose={() => setOpen(false)}>
-					<p className="mb-4">회원가입이 완료되었습니다!</p>
-					<Button variant="primary" onClick={() => navigate('/login')}>
-						로그인하러 가기
-					</Button>
-				</Modal>
-			)}
+		<div className="w-full max-w-md flex flex-col items-center justify-center gap-10">
+			<div className="flex flex-col items-center justify-center gap-3">
+				<img src={icon} alt="아이콘" className="w-100 h-100" />
+				<p className="text-base font-bold">회원가입이 완료되었습니다!</p>
+			</div>
+
+			<Button backgroundColor="bg-[#CDE7EC]" borderRadius="rounded-full"
+				fontWeight="font-bold" fontColor="#008491" padding="p-4" width="w-full"
+				onClick={() => { navigate('/login') }}>로그인하러 가기</Button>
 		</div>
 	);
 }
