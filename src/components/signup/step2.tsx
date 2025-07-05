@@ -44,7 +44,7 @@ export default function Step2({ onNext, nickname, birth, email, password, setNic
 	const closeModal = () => setModalOpen(false);
 
 	const handleConfirm = (y: string, m: string, d: string) => {
-		setBirth(`${y}-${m}-${d}`);
+		setBirth(`${y}-${m.padStart(2, '0')}-${d.padStart(2, '0')}`);
 		closeModal();
 	};
 
