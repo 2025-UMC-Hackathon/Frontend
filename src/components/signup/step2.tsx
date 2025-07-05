@@ -7,13 +7,21 @@ import { Calendar, AlertCircle } from 'lucide-react';
 
 interface Props {
 	onNext: () => void;
+	nickname: string;
+	birth: string;
+	email: string;
+	password: string;
+	setNickname: (v: string) => void;
+	setBirth: (v: string) => void;
+	setEmail: (v: string) => void;
+	setPassword: (v: string) => void;
 }
 
-export default function Step2({ onNext }: Props) {
-	const [nickname, setNickname] = useState('');
-	const [birth, setBirth] = useState('');
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
+export default function Step2({ onNext, nickname, birth, email, password, setNickname, setBirth, setEmail, setPassword }: Props) {
+	// const [nickname, setNickname] = useState('');
+	// const [birth, setBirth] = useState('');
+	// const [email, setEmail] = useState('');
+	// const [password, setPassword] = useState('');
 	const [confirm, setConfirm] = useState('');
 	const [modalOpen, setModalOpen] = useState(false);
 
