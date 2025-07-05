@@ -8,12 +8,21 @@ import { BrowserRouter } from 'react-router-dom';
 import Header from './components/header.tsx';
 import Footer from './components/footer.tsx';
 
+import {
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Header />
-      <App />
-      <Footer />
-    </BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <Header />
+        <App />
+        <Footer />
+      </BrowserRouter>
+    </QueryClientProvider>
   </React.StrictMode>
 );

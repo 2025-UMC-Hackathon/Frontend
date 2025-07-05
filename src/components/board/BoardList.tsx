@@ -1,10 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import BoardItem from './BoardItem';
-import { useNavigate } from 'react-router-dom';
-import { serverCall } from '../utils/serverCall';
 import { disabilityType, worryType } from '../write/mockData';
 import { ChevronDown } from 'lucide-react';
 import { usePosts } from './usePost';
+import { useNavigate } from 'react-router-dom';
 
 const BoardList = () => {
     const [openType, setOpenType] = useState<'disability' | 'worry' | null>(null);
@@ -24,6 +23,28 @@ const BoardList = () => {
 
     const posts = data?.pages.flatMap(page => page.posts) ?? [];
 
+    const sentinelRef = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+    if (!hasNextPage || isFetchingNextPage) return;
+    const observer = new IntersectionObserver(
+        (entries) => {
+            if (entries[0].isIntersecting) {
+            fetchNextPage();
+            }
+        },
+        { threshold: 1 }
+    );
+        if (sentinelRef.current) {
+            observer.observe(sentinelRef.current);
+        }
+        return () => {
+            if (sentinelRef.current) observer.unobserve(sentinelRef.current);
+        };
+    }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+    const navigate = useNavigate();
+
     // 드롭다운에서 값 선택
     const handleSelect = (type: 'disability' | 'worry', value: string) => {
         if (type === 'disability') setSelectedDisabilityType(value);
@@ -33,7 +54,7 @@ const BoardList = () => {
 
     const handleLoadMore = () => {
         if (hasNextPage && !isFetchingNextPage) {
-        fetchNextPage();
+            fetchNextPage();
         }
     };
 
@@ -97,18 +118,38 @@ const BoardList = () => {
                 </div>
             </div>
             {/* 게시글 목록 */}
-            {hasNextPage && (
-                <div className="flex justify-center my-4">
-                    <button
-                        onClick={handleLoadMore}
-                        disabled={isFetchingNextPage}
-                        className="px-4 py-2 bg-gray-200 rounded"
-                    >
-                        {isFetchingNextPage ? '불러오는 중...' : '더 보기'}
-                    </button>
+            <div className="w-full">
+                {isLoading ? (
+                <div className="flex items-center justify-center h-[200px] text-[14px] text-[#9C9C9C]">
+                    로딩중...
                 </div>
-            )}
+                ) : posts.length > 0 ? (
+                    posts.map((post) => (
+                        <BoardItem
+                            key={post.id}
+                            title={post.title}
+                            content={post.content}
+                            createdAt={post.createdAt}
+                            nickname={post.nickname}
+                            commentNum={post.commentNum}
+                            onClick={() => navigate(`/community/${post.id}`)}
+                            />
+                        ))
+                ) : (
+                    <div className="flex items-center justify-center h-[200px] text-[14px] text-[#9C9C9C]">
+                        해당하는 게시글이 없습니다.
+                    </div>
+                )}
+                {/* 무한 스크롤 트리거용 sentinel */}
+                <div ref={sentinelRef} style={{ height: 1 }} />
+                {hasNextPage && !isFetchingNextPage && (
+                    <button onClick={handleLoadMore} className="text-center w-full mt-4 text-blue-500">
+                        더 보기
+                    </button>
+                )}
         </div>
+    </div>
+
     );
 };
 
