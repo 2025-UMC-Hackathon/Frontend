@@ -7,9 +7,10 @@ type LoginTextFieldProps = {
     placeholder?: string;
     type?: 'text' | 'email' | 'password' | 'number';
     disabled?: boolean;
-    width?: string; // 예: "w-[300px]" 또는 "w-full"
+    width?: string;
     required?: boolean;
     error?: string;
+    variant?: 'login' | 'signup';
 };
 
 const LoginTextField = ({
@@ -17,14 +18,34 @@ const LoginTextField = ({
     value,
     onChange,
     placeholder,
-    type,
+    type = 'text',
     disabled,
     width,
     required,
     error,
+    variant = 'login', 
 }: LoginTextFieldProps) => {
+    const variantStyle = {
+        login: {
+            wrapper: 'w-[300px]',
+            input: 'h-[58px] px-4',
+            radius: 'rounded-[8px]',
+            font: 'text-base',
+            border: 'border-[#000000] border-opacity-40',
+        },
+        signup: {
+            wrapper: 'w-[266px]',
+            input: 'h-[48px] px-3 py-3',
+            radius: 'rounded-[4px]',
+            font: 'text-sm',
+            border: 'border-[#000000] border-opacity-10',
+        },  
+    };
+
+    const style = variantStyle[variant];
+
     return (
-        <div className={`flex flex-col ${width}`}>
+        <div className={`flex flex-col ${width ?? style.wrapper}`}>
             {label && (
                 <label className="flex flex-start text-lg mb-[10px] gap-[2px]">
                     {label}
