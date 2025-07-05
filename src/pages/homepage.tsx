@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { BoardItem } from '../components/BoardItem';
 import TagDropdown from '../components/dropdown';
+import ic_post from '../../assets/ic_post.svg';
 
 export default function Home() {
 	const [selectedTag, setSelectedTag] = useState<string[]>([]);
@@ -57,6 +58,17 @@ export default function Home() {
 				nickname="닉네임"
 			/>
 
+			<button
+				className="
+					w-[135px] h-[48px] 
+					rounded-full border border-black 
+					px-4 py-3 gap-[10px] 
+					flex items-center justify-center
+				"
+			>
+				<img src={ic_post} alt="icon" className="w-4 h-4" />
+				글 작성하기
+			</button>			
 
 		</div>
 	);
