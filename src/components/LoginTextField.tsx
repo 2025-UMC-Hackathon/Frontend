@@ -11,6 +11,7 @@ type LoginTextFieldProps = {
     required?: boolean;
     error?: string;
     variant?: 'login' | 'signup';
+    rightIcon?: React.ReactNode;
 };
 
 const TextField = ({
@@ -24,6 +25,7 @@ const TextField = ({
     required,
     error,
     variant = 'login', 
+    rightIcon,
 }: LoginTextFieldProps) => {
     const variantStyle = {
         login: {
@@ -63,6 +65,7 @@ const TextField = ({
                     disabled={disabled}
                     className={`flex-1 ${style.font} bg-transparent outline-none placeholder:${style.placeholder}`}
                 />
+                {rightIcon && <div className="w-[18px] h-[18px] px-12 py-12">{rightIcon}</div>}
             </div>
             {error && <span className="flex flex-start mt-[3px] text-[11px] text-[#838389]">{error}</span>}
         </div>
