@@ -26,12 +26,12 @@ export default function HomePage() {
 
 			<BoardList />
 			
-			<div className="w-[400px] relative">
+			
 				<button
 					onClick={()=>navigate("/write")}
 					className="
-						absolute
-						bottom-[32px] right-[32px]
+						fixed 
+						bottom-[112px] right-[350px]
 						w-[48px] h-[48px] p-[15px]
 						rounded-full border border-[#BFC8CA] bg-[#DEE3E4]
 						shadow-[0px_4px_4px_rgba(0,0,0,0.15)]
@@ -41,7 +41,7 @@ export default function HomePage() {
 				>
 					<img src={ic_landing_write} alt="icon" className="w-[18px] h-[18px]" />
 				</button>
-			</div>
+			
 			
 		</div>
 	);
