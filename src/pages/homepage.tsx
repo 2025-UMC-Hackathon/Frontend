@@ -1,3 +1,5 @@
+// 깃허브에서 이슈를 파고, dev에서 feature로 뻗어나가주세요!
+
 import { useNavigate } from 'react-router-dom';
 import Button from "../components/button";
 
