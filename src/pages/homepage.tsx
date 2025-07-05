@@ -6,7 +6,6 @@ import TextField from '../components/TextField';
 import { useState } from 'react';
 
 import TagDropdown from '../components/dropdown';
-import clsx from 'clsx';
 
 export default function Home() {
 	const navigate = useNavigate();
@@ -21,7 +20,7 @@ export default function Home() {
 			<p className="mb-4 text-lg">여기는 홈화면~</p>
 
 			<TextField
-				
+
 				value="입력하세요"
 				onChange={handleChange}
 				placeholder="이메일을 입력하세요"
@@ -53,10 +52,10 @@ export default function Home() {
 				selectedTags={selectedTags}
 				onTagChange={setSelectedTags}
 				selectionMode="single"
-				
+
 			/>
 
-			
+
 		</div>
 	);
 }
