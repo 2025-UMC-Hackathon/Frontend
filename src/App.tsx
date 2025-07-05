@@ -7,8 +7,11 @@ import Login from './pages/loginpage';
 import Community from './pages/communitypage';
 import Chat from './pages/chatpage';
 import Write from './pages/writepage';
+import WrittenByMe from './pages/writtenbymepage';
+import LikedByMe from './pages/likedbymepage';
 import './App.css';
 import { ToastContainer } from 'react-toastify';
+
 
 export default function App() {
   return (
@@ -26,6 +29,8 @@ export default function App() {
         {/* 글 작성 페이지 */}
         <Route path="/write" element={<Write />} />
         <Route path="/chat" element={<Chat />} />
+        <Route path="/writtedbyme" element={<WrittenByMe />} />
+        <Route path="/likedbyme" element={<LikedByMe />} />
       </Routes>
       <ToastContainer position="bottom-center" />
     </>
