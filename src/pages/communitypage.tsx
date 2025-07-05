@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ConfirmDeleteModal from '../components/community/deleteModal';
 import { fetchPost } from '../components/community/func/fetchPost';
+import { fetchComment } from '../components/community/func/fetchComment';
 import PostContent from '../components/community/PostContent';
 import CommentSection from '../components/community/CommentSection';
 import { mockData } from '../components/community/mockData';
@@ -23,14 +24,29 @@ interface PostData {
 	comments: number;
 }
 
+interface CommentData {
+	id: number;
+	nickname: string;
+	content: string;
+	userId: number;
+	postId: number;
+	parentId: number;
+	writeDate: string;
+	createdAt: string;
+	children: CommentData[]; // 재귀 형태
+}
+
 const postId = 1;
 
 export default function Community() {
 	const [post, setPost] = useState<PostData | null>(null);
+	const [comment, setComment] = useState<CommentData[] | null>(null);
 	const [commentInput, setCommentInput] = useState('');
 	const [replyTo, setReplyTo] = useState<string | null>(null);
 	const [showModal, setShowModal] = useState(false);
 
+	// 부모 컴포넌트에서 모든 데이터를 호출하고 자식들에게 props 전달한다 
+	// 1. 본문 데이터 페칭 
 	useEffect(() => {
 		fetchPost({ postId })
 			.then((data) => {
@@ -38,8 +54,18 @@ export default function Community() {
 			})
 			.catch((err) => console.error('게시글 불러오기 실패:', err));
 	}, []);
+	// 2. 댓글 데이터 페칭 
+	useEffect(() => {
+		fetchComment({ postId })
+			.then((data) => {
+				if (data) setComment(data);
+			})
+			.catch((err) => console.error('댓글 목록 불러오기 실패:', err));
+	}, []);
 
 	const handleCancelReply = () => setReplyTo(null);
+
+	// 3. 삭제 기능 구현 필요 
 	const handleDelete = () => {
 		setShowModal(false);
 		toast.success('삭제되었습니다.');

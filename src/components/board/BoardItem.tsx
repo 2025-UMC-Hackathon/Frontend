@@ -7,7 +7,7 @@ export type BoardItemProps = {
     nickname: string;
     disabilityType?: string;
     worry?: string;
-    commentNum?: number;
+    commentCnt?: number;
     onClick: () => void;
 };
 
@@ -16,7 +16,7 @@ const BoardItem = ({
     content,
     createdAt,
     nickname,
-    commentNum,
+    commentCnt,
     onClick,
 }: BoardItemProps) => {
     return (
@@ -33,7 +33,7 @@ const BoardItem = ({
                 </div>
                 <div className="flex items-center">
                     <img src={ic_landing_chat} alt="채팅 아이콘" />
-                    <span className="ml-[1.33px]">{commentNum}</span>
+                    <span className="ml-[1.33px]">{commentCnt}</span>
                 </div>
             </div>
         </div>

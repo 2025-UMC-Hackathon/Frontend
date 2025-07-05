@@ -25,6 +25,11 @@ const typeMap: Record<string, string> = {
 	'장애인 자녀를 둔 부모': '장애인자녀를둔부모',
 };
 
+const rangeMap: Record<string, string> = {
+	'심해요': '성인장애인',
+	'가벼운 정도예요': '경증',
+};
+
 
 export default function Step1({ onNext, role, setRole, disability, setDisability, type, setType }: Props) {
 
@@ -97,7 +102,7 @@ export default function Step1({ onNext, role, setRole, disability, setDisability
 			<p className="text-sm font-bold font-[#334B4E]">어느 정도인가요?</p>
 			<div className="flex gap-2">
 				{['심해요', '가벼운 정도예요'].map((v) => {
-					const style = getStyle(type === v);
+					const style = getStyle(type === rangeMap[v]);
 					return (
 						<Button
 							key={v}
@@ -107,7 +112,7 @@ export default function Step1({ onNext, role, setRole, disability, setDisability
 							fontColor={style.fontColor}
 							fontWeight={style.fontWeight}
 							border={style.border}
-							onClick={() => setType(v)}
+							onClick={() => setType(rangeMap[v])}
 							borderRadius={style.borderRadius}
 						/>
 					);

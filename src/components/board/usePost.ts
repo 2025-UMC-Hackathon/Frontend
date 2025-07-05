@@ -7,6 +7,7 @@ export interface Post {
   content: string;
   createdAt: string;
   nickname: string;
+  commentCnt: number;
 }
 
 export interface PostResponse {

@@ -11,7 +11,7 @@ const BoardList = () => {
     const [selectedWorry, setSelectedWorry] = useState<string | null>(null);
 
     const tags = [selectedDisabilityType, selectedWorry].filter(Boolean) as string[];
-    const tagQuery = tags.length > 0 ? tags : ['전체'];
+    const tagQuery = tags.length > 0 ? tags : [];
 
     const {
         data,
@@ -22,6 +22,11 @@ const BoardList = () => {
     } = usePosts(tagQuery, 10);
 
     const posts = data?.pages.flatMap(page => page.posts) ?? [];
+
+    useEffect(() => {
+  console.log("posts:", posts.map(p => p.id));
+}, [posts]);
+
 
     const sentinelRef = useRef<HTMLDivElement | null>(null);
 
@@ -124,15 +129,16 @@ const BoardList = () => {
                     로딩중...
                 </div>
                 ) : posts.length > 0 ? (
-                    posts.map((post) => (
+                    posts.map((post, index) => (
                         <BoardItem
-                            key={post.id}
+                            key={`post-${index}`}
+                            /* key={post.id} */
                             title={post.title}
                             content={post.content}
                             createdAt={post.createdAt}
                             nickname={post.nickname}
-                            commentNum={post.commentNum}
-                            onClick={() => navigate(`/community/${post.id}`)}
+                            commentCnt={post.commentCnt}
+                            onClick={() => navigate(`/community`)}
                             />
                         ))
                 ) : (
