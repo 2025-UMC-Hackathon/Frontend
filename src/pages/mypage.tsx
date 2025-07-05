@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import BoardItem from '../components/board/BoardItem';
 
 export default function MyPage() {
 	const navigate = useNavigate();
@@ -28,7 +29,20 @@ export default function MyPage() {
 					>
 						좋아요
 					</button>
+
+					
 				</div>
+				<BoardItem
+                            key="1"
+                            title="내가 쓴 글"
+                            content="내용"
+                            createdAt="5분 전"
+                            nickname="이름"
+                            disabilityType="타입"
+                            worry="고민 거리"
+                
+                            variant='page'
+                        />
 			</div>
 		</div>
 	);

@@ -81,6 +81,7 @@ const BoardList = () => {
                             disabilityType={item.disabilityType}
                             worry={item.worry}
                             commentNum={item.commentNum}
+                            variant='board'
                         />
                     ))
                 ) : (
