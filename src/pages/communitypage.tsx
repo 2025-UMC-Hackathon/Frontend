@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import {
 	MessageCircle, X, CornerDownRight, Heart,
@@ -9,6 +9,24 @@ import ConfirmDeleteModal from '../components/community/deleteModal';
 import { toast } from 'react-toastify';
 import { mockData } from '../components/community/mockData';
 import 'react-toastify/dist/ReactToastify.css';
+import { serverCall } from '../components/utils/serverCall';
+
+interface PostData {
+	id: number;
+	nickname: string;
+	writeDate: string;
+	writeTime: {
+		hour: number;
+		minute: number;
+		second: number;
+	};
+	title: string;
+	content: string;
+	likes: number;
+	comments: number;
+}
+
+const postId = 1;
 
 interface CommentType {
 	id: number;
@@ -94,6 +112,20 @@ export default function Community() {
 	const [showOptions, setShowOptions] = useState(false);
 	const location = useLocation();
 
+	const [post, setPost] = useState<PostData | null>(null);
+	useEffect(() => {
+		const fetchPost = async () => {
+			try {
+				const response = await serverCall<{ result: PostData }>('GET', `/api/posts/${postId}`);
+				setPost(response.result);
+			} catch (error) {
+				console.error('게시글 불러오기 실패:', error);
+			}
+		};
+
+		fetchPost();
+	}, []);
+
 	const handleShare = async () => {
 		try {
 			await navigator.clipboard.writeText(window.location.origin + location.pathname);
@@ -115,17 +147,17 @@ export default function Community() {
 	return (
 		<div className="flex flex-col min-h-screen">
 			{/* 본문 */}
-			<div className="flex flex-col px-6 gap-5">
-				<div className="w-full flex justify-between items-center">
-					<div className="flex gap-2 text-base">
-						<span className="font-bold text-black">미딩</span>
-						<span className="text-gray-400">{mockData.writeDate}</span>
-						<span className="text-gray-400">{mockData.writeTime}</span>
-					</div>
-					{mockData.isMine && (
-						// <button onClick={() => setShowModal(true)} className="bg-transparent">
-						// 	<Trash2 size={16} />
-						// </button>
+			{post && (
+				<div className="flex flex-col px-6 gap-5">
+					<div className="w-full flex justify-between items-center">
+						<div className="flex gap-2 text-base">
+							<span className="font-bold text-black">{post.nickname}</span>
+							<span className="text-gray-400">{post.writeDate}</span>
+							<span className="text-gray-400">
+								{post.writeTime.hour}:{post.writeTime.minute.toString().padStart(2, '0')}
+							</span>
+						</div>
+
 						<div className="relative">
 							<button onClick={() => setShowOptions(prev => !prev)} className="bg-transparent p-2">
 								<MoreVertical size={20} />
@@ -140,41 +172,38 @@ export default function Community() {
 										<span>게시물 공유</span>
 										<Share2 size={18} />
 									</button>
-
-									{mockData.isMine && (
-										<button
-											onClick={() => {
-												setShowOptions(false);
-												setShowModal(true);
-											}}
-											className="w-full flex justify-between items-center px-4 py-3 text-red-500 hover:bg-gray-100"
-										>
-											<span>삭제</span>
-											<Trash2 size={18} color="red" />
-										</button>
-									)}
+									<button
+										onClick={() => {
+											setShowOptions(false);
+											setShowModal(true);
+										}}
+										className="w-full flex justify-between items-center px-4 py-3 text-red-500 hover:bg-gray-100"
+									>
+										<span>삭제</span>
+										<Trash2 size={18} color="red" />
+									</button>
 								</div>
 							)}
 						</div>
+					</div>
 
-					)}
-				</div>
-
-				<div className="w-full flex flex-col gap-3 items-start justify-start">
-					<h1 className="text-base font-bold">{mockData.title}</h1>
-					<p className="text-gray-700">{mockData.content}</p>
-					<div className="w-full flex justify-between border-t py-3 text-sm text-gray-500">
-						<Button width="w-[50%]" backgroundColor="bg-transparent" padding="px-3 py-1">
-							<div className="flex justify-center items-center gap-2 font-bold text-black">
-								<Heart size={20} /> 좋아요 {mockData.likes}
+					<div className="w-full flex flex-col gap-3 items-start justify-start">
+						<h1 className="text-base font-bold">{post.title}</h1>
+						<p className="text-gray-700">{post.content}</p>
+						<div className="w-full flex justify-between border-t py-3 text-sm text-gray-500">
+							<Button width="w-[50%]" backgroundColor="bg-transparent" padding="px-3 py-1">
+								<div className="flex justify-center items-center gap-2 font-bold text-black">
+									<Heart size={20} /> 좋아요 {post.likes}
+								</div>
+							</Button>
+							<div className="flex justify-center items-center gap-2 w-[50%] font-bold text-black">
+								<MessageSquareText size={20} /> 댓글 {post.comments}
 							</div>
-						</Button>
-						<div className="flex justify-center items-center gap-2 w-[50%] font-bold text-black">
-							<MessageSquareText size={20} /> 댓글 {mockData.comments}개
 						</div>
 					</div>
 				</div>
-			</div>
+			)}
+
 
 			{/* 댓글 리스트 */}
 			<div className="flex flex-col gap-4 mt-4 px-3">

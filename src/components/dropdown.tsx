@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import  { useState, useEffect, useRef } from 'react';
 import clsx from 'clsx';
 
 // --- Props 인터페이스 (className 제거) ---
