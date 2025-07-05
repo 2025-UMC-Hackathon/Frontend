@@ -1,13 +1,16 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import { MessageSquareText, MessageCircle, User } from 'lucide-react';
+import { MessageCircle, User } from 'lucide-react';
 import family from '../assets/nav_family.svg';
 
 // 기존 Footer가 NaviBar의 역할입니다.
 export default function Footer() {
 	const navigate = useNavigate();
 	const location = useLocation();
+	const path = location.pathname;
 
 	const isActive = (path: string) => location.pathname === path ? 'bg-[#CDE7EC]' : '';
+
+	if (path !== '/' && path !== '/my') return null;
 
 	return (
 		<div

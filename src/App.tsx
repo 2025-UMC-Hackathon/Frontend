@@ -6,6 +6,7 @@ import Signup from './pages/signuppage';
 import Login from './pages/loginpage';
 import Community from './pages/communitypage';
 import Chat from './pages/chatpage';
+import Write from './pages/writepage';
 import './App.css';
 
 export default function App() {
@@ -18,7 +19,10 @@ export default function App() {
       <Route path="/my" element={<My />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
+      {/* 글 상세 페이지 */}
       <Route path="/community" element={<Community />} />
+      {/* 글 작성 페이지 */}
+      <Route path="/write" element={<Write />} />
       <Route path="/chat" element={<Chat />} />
     </Routes>
   );
