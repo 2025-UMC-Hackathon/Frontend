@@ -10,6 +10,7 @@ interface CustomButtonProps {
 	borderRadius?: string;
 	border?: string;
 	fontColor?: string;
+	fontWeight?: string;
 	onClick?: () => void;
 	variant?: 'primary' | 'secondary' | 'danger' | 'outline';
 }
@@ -50,6 +51,7 @@ export default function Button({
 	border,
 	borderRadius,
 	fontColor,
+	fontWeight,
 	onClick,
 	variant,
 }: CustomButtonProps) {
@@ -60,10 +62,10 @@ export default function Button({
 		${backgroundColor ?? variantClass.bg}
 		${fontColor ?? variantClass.text}
 		${borderRadius ?? 'rounded-md'}
-		${border ?? 'border-0'}
-		${variantClass.border ?? ''}
+		${border ?? variantClass.border ?? ''}
+		${fontWeight ?? 'text-sm'}
 		transition hover:opacity-90 grid place-items-center
-		border-none outline-none ring-0 focus:ring-0 focus:outline-none focus:border-transparent
+		outline-none ring-0 focus:ring-0 focus:outline-none focus:border-transparent
 	`.trim();
 
 	return (

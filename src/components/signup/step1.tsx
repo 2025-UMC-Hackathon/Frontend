@@ -15,22 +15,26 @@ export default function Step1({ onNext }: Props) {
 	const getStyle = (selected: boolean) => {
 		return selected
 			? {
-				backgroundColor: 'bg-green-500',
-				fontColor: 'text-white',
-				border: 'border-4 border-green-500',
+				backgroundColor: 'bg-[#CDE7EC]',
+				fontColor: 'text-[#334B4E]',
+				fontWeight: 'font-bold',
+				border: 'border-0',
+				borderRadius: 'rounded-full'
 			}
 			: {
 				backgroundColor: 'bg-white',
-				fontColor: 'text-gray-600',
-				border: 'border-4 border-gray-200',
+				fontColor: 'text-[#3F484A]',
+				fontWeight: 'font-base',
+				border: 'border-1 border-gray-500',
+				borderRadius: 'rounded-full'
 			};
 	};
 
 	return (
-		<div className="w-full max-w-md flex flex-col gap-4">
-			<h2 className="text-xl font-bold">어떤 입장으로 참여하시나요?</h2>
-			<div className="flex gap-2">
-				{['성인 장애인', '장애인 자녀의 부모'].map((v) => {
+		<div className="w-full flex flex-col gap-10 items-center justify-center">
+			<p className="text-base font-bold font-[#334B4E]">어떤 입장으로 오시게 되었나요?</p>
+			<div className="w-full flex gap-2">
+				{['성인 장애인', '장애인 자녀를 둔 부모'].map((v) => {
 					const style = getStyle(role === v);
 					return (
 						<Button
@@ -39,16 +43,21 @@ export default function Step1({ onNext }: Props) {
 							variant="primary"
 							backgroundColor={style.backgroundColor}
 							fontColor={style.fontColor}
+							fontWeight={style.fontWeight}
 							border={style.border}
+							borderRadius={style.borderRadius}
 							onClick={() => setRole(v)}
+							width='w-1/2'
+							height='h-auto'
+							padding='p-2'
 						/>
 					);
 				})}
 			</div>
 
-			<h2 className="text-xl font-bold">장애유형을 선택해주세요</h2>
+			<p className="text-base font-bold font-[#334B4E]">어떤 입장으로 오시게 되었나요?</p>
 			<div className="flex gap-2 flex-wrap">
-				{['시각', '청각', '신체장애', '지적장애', '발달장애', '기타'].map((v) => {
+				{['눈', '귀', '신체', '머리', '기타'].map((v) => {
 					const style = getStyle(disability === v);
 					return (
 						<Button
@@ -57,16 +66,18 @@ export default function Step1({ onNext }: Props) {
 							variant="primary"
 							backgroundColor={style.backgroundColor}
 							fontColor={style.fontColor}
+							fontWeight={style.fontWeight}
 							border={style.border}
 							onClick={() => setDisability(v)}
+							borderRadius={style.borderRadius}
 						/>
 					);
 				})}
 			</div>
 
-			<h2 className="text-xl font-bold">장애인 구분을 선택해주세요</h2>
+			<p className="text-base font-bold font-[#334B4E]">어느 정도인가요?</p>
 			<div className="flex gap-2">
-				{['중증', '경증'].map((v) => {
+				{['심해요', '가벼운 정도예요'].map((v) => {
 					const style = getStyle(type === v);
 					return (
 						<Button
@@ -75,8 +86,10 @@ export default function Step1({ onNext }: Props) {
 							variant="primary"
 							backgroundColor={style.backgroundColor}
 							fontColor={style.fontColor}
+							fontWeight={style.fontWeight}
 							border={style.border}
 							onClick={() => setType(v)}
+							borderRadius={style.borderRadius}
 						/>
 					);
 				})}
@@ -85,8 +98,8 @@ export default function Step1({ onNext }: Props) {
 			<button
 				disabled={!isValid}
 				onClick={onNext}
-				className={`mt-4 w-full py-2 rounded ${isValid ? 'bg-green-500 text-white' : 'bg-gray-300 text-gray-500'
-					}`}
+				className={`mt-4 w-full rounded-full font-bold py-4
+				${isValid ? 'bg-[#CDE7EC] text-[#3F484A]' : 'bg-[#E9E9E9] text-gray-500'}`}
 			>
 				다음
 			</button>
