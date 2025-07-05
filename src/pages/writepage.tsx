@@ -8,6 +8,7 @@ export default function Write() {
 	const [title, setTitle] = useState('');
 	const [content, setContent] = useState('');
 	const [openType, setOpenType] = useState<'disability' | 'worry' | null>(null);
+	
 
 	const isFormValid =
 		selectedDisability !== null &&
@@ -26,61 +27,76 @@ export default function Write() {
 
 			<div className="flex flex-col items-center justify-center gap-2">
 				{/* 드롭다운 영역 */}
-				<div className="w-full flex gap-2 mb-6 items-start justify-start">
-					<div className="relative">
-						<button
-							onClick={() => setOpenType(openType === 'disability' ? null : 'disability')}
-							className="border rounded-full px-4 py-2 text-sm flex items-center gap-1"
-						>
-							{selectedDisability ?? '장애유형'}
-							<ChevronDown size={16} />
-						</button>
-						{openType === 'disability' && (
-							<div className="absolute top-10 left-0 bg-white border shadow rounded w-full z-10">
-								{disabilityType.map((item) => (
-									<div
-										key={item}
-										className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
-										onClick={() => handleSelect('disability', item)}
-									>
-										{item}
-									</div>
-								))}
-							</div>
-						)}
-					</div>
+				<div className="w-full flex gap-2 mb-6">
+                
+                {/* --- 장애유형 드롭다운 수정 --- */}
+                <div className="relative">
+                    {/* 1. 텍스트와 버튼을 감싸는 flex 컨테이너 */}
+                    <div className="flex items-center gap-1">
+                        {/* 2. 텍스트 표시 부분 */}
+                        <div className="border border-gray-300 rounded-l-full px-4 py-1.5 text-sm bg-white text-gray-600">
+                            {selectedDisability ?? '장애유형'}
+                        </div>
+                        {/* 3. 아이콘 버튼 부분 */}
+                        <button
+                            onClick={() => setOpenType(openType === 'disability' ? null : 'disability')}
+                            className="border border-gray-300 rounded-r-full p-2 bg-white transition hover:bg-gray-50"
+                        >
+                            <ChevronDown size={16} className="text-gray-600" />
+                        </button>
+                    </div>
+                    {/* 드롭다운 메뉴 */}
+                    {openType === 'disability' && (
+                        <div className="absolute top-full mt-1 left-0 bg-white border shadow-lg rounded-md w-full min-w-max z-10">
+                            {disabilityType.map((item) => (
+                                <div
+                                    key={item}
+                                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
+                                    onClick={() => handleSelect('disability', item)}
+                                >
+                                    {item}
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
 
-					<div className="relative">
-						<button
-							onClick={() => setOpenType(openType === 'worry' ? null : 'worry')}
-							className="border rounded-full px-4 py-2 text-sm flex items-center gap-1"
-						>
-							{selectedWorry ?? '고민'}
-							<ChevronDown size={16} />
-						</button>
-						{openType === 'worry' && (
-							<div className="absolute top-10 left-0 bg-white border shadow rounded w-full z-10">
-								{worryType.map((item) => (
-									<div
-										key={item}
-										className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
-										onClick={() => handleSelect('worry', item)}
-									>
-										{item}
-									</div>
-								))}
-							</div>
-						)}
-					</div>
-				</div>
+				<div className="relative">
+                    <div className="flex items-center gap-1">
+                        <div className="border border-gray-300 rounded-l-full px-4 py-1.5 text-sm bg-white text-gray-600">
+                            {selectedWorry ?? '고민'}
+                        </div>
+                        <button
+                            onClick={() => setOpenType(openType === 'worry' ? null : 'worry')}
+                            className="border border-gray-300 rounded-r-full p-2 bg-white transition hover:bg-gray-50"
+                        >
+                            <ChevronDown size={16} className="text-gray-600" />
+                        </button>
+                    </div>
+                    {openType === 'worry' && (
+                        <div className="absolute top-full mt-1 left-0 bg-white border shadow-lg rounded-md w-full min-w-max z-10">
+                            {worryType.map((item) => (
+                                <div
+                                    key={item}
+                                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
+                                    onClick={() => handleSelect('worry', item)}
+                                >
+                                    {item}
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            </div>
 
 				{/* 제목 */}
 				<input
 					type="text"
 					value={title}
 					onChange={(e) => setTitle(e.target.value)}
-					placeholder="제목을 입력해주세요."
-					className="w-full border-b py-3 text-base font-semibold placeholder-gray-400 mb-4 focus:outline-none"
+					placeholder="제목을 입력해주세요"
+					className="w-full border-b py-3 text-[#171D1E] placeholder:text-[#171D1E] placeholder:font-semibold mb-4 focus:outline-none"
+					
 				/>
 
 				{/* 내용 */}
@@ -89,7 +105,8 @@ export default function Write() {
 					onChange={(e) => setContent(e.target.value)}
 					placeholder="내용을 입력해주세요."
 					rows={8}
-					className="w-full text-sm placeholder-gray-400 focus:outline-none resize-none"
+					className="w-full text-sm placeholder-gray-400 focus:outline-none resize-none text-[#171D1E]"
+					
 				/>
 			</div>
 
@@ -97,7 +114,7 @@ export default function Write() {
 			<div className="flex items-center justify-center bg-white shadow-inner">
 				<button
 					disabled={!isFormValid}
-					className={`w-[400px] text-white rounded-full text-sm font-semibold ${isFormValid ? 'bg-green-500' : 'bg-gray-400'
+					className={`fixed w-[338px] h-[56px]  rounded-full text-sm font-semibold ${isFormValid ? 'bg-[#CDE7EC] text-[#334B4E]' : 'bg-[#171D1E]/10 text-[#171D1E]/9'
 						}`}
 				>
 					등록하기
