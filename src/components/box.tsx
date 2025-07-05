@@ -44,7 +44,7 @@ export default function Box({
 	  ${baseClass}
 	  ${width} ${height} ${padding ?? ''} ${margin ?? ''}
 	  ${backgroundColor ?? ''} ${borderRadius ?? ''} ${border ?? ''} ${boxShadow ?? ''}
-	  flex flex-${flexDirection}
+	  flex flex-${flexDirection} grid place-items-center
 	`.trim();
 
 	return <div className={className}>{children}</div>;
