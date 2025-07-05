@@ -38,7 +38,7 @@ export default function Footer() {
 				<span className="text-sm mt-1 text-[#3F484A] font-bold">대화</span>
 			</div>
 			<div
-				onClick={() => navigate('/my')}
+				onClick={() => navigate('/mypage')}
 				className={`flex flex-col items-center cursor-pointer p-2`}
 			>
 				<div className={`flex items-center cursor-pointer p-2 rounded-full ${isActive('/my')}`}>
