@@ -1,6 +1,6 @@
 // 로그인 페이지에서 쓰일 TextField 컴포넌트
 
-type LoginTextFieldProps = {
+type TextFieldProps = {
     label?: string;
     value: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -26,7 +26,7 @@ const TextField = ({
     error,
     variant = 'login', 
     rightIcon,
-}: LoginTextFieldProps) => {
+}: TextFieldProps) => {
     const variantStyle = {
         login: {
             wrapper: 'w-[300px]',
