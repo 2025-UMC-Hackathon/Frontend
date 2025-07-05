@@ -149,13 +149,14 @@ export default function Write() {
 				<button
                     type="submit"
 					disabled={!isFormValid}
-					className={`fixed w-[338px] h-[56px]  rounded-full text-sm font-semibold ${isFormValid ? 'bg-[#CDE7EC] text-[#334B4E]' : 'bg-[#171D1E]/10 text-[#171D1E]/9'
+					className={`fixed bottom-6 left-1/2 -translate-x-1/2 w-[338px] h-[56px]  rounded-full text-sm font-semibold ${isFormValid ? 'bg-[#CDE7EC] text-[#334B4E]' : 'bg-[#171D1E]/10 text-[#171D1E]/9'
 						}`}
 				>
 					등록하기
 				</button>
                 </form>
 			</div>
+            
 		</div>
 	);
 }
