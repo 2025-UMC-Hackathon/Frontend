@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import {
 	MessageCircle, X, CornerDownRight, Heart,
-	MessageSquareText, Trash2, Send
+	MessageSquareText, Trash2, Send, MoreVertical, Share2
 } from 'lucide-react';
 import Button from '../components/button';
 import ConfirmDeleteModal from '../components/community/deleteModal';
@@ -90,6 +91,18 @@ export default function Community() {
 	const [replyTo, setReplyTo] = useState<string | null>(null);
 	const [commentInput, setCommentInput] = useState('');
 	const [showModal, setShowModal] = useState(false);
+	const [showOptions, setShowOptions] = useState(false);
+	const location = useLocation();
+
+	const handleShare = async () => {
+		try {
+			await navigator.clipboard.writeText(window.location.origin + location.pathname);
+			toast.success('링크가 복사되었습니다!');
+			setShowOptions(false);
+		} catch (err) {
+			toast.error('클립보드 복사 실패');
+		}
+	};
 
 	const handleReplyClick = (nickname: string) => setReplyTo(nickname);
 	const handleCancelReply = () => setReplyTo(null);
@@ -110,9 +123,40 @@ export default function Community() {
 						<span className="text-gray-400">{mockData.writeTime}</span>
 					</div>
 					{mockData.isMine && (
-						<button onClick={() => setShowModal(true)} className="bg-transparent">
-							<Trash2 size={16} />
-						</button>
+						// <button onClick={() => setShowModal(true)} className="bg-transparent">
+						// 	<Trash2 size={16} />
+						// </button>
+						<div className="relative">
+							<button onClick={() => setShowOptions(prev => !prev)} className="bg-transparent p-2">
+								<MoreVertical size={20} />
+							</button>
+
+							{showOptions && (
+								<div className="absolute right-0 top-10 w-52 bg-white rounded-xl shadow-lg border text-sm z-50">
+									<button
+										onClick={handleShare}
+										className="w-full flex justify-between items-center px-4 py-3 hover:bg-gray-100"
+									>
+										<span>게시물 공유</span>
+										<Share2 size={18} />
+									</button>
+
+									{mockData.isMine && (
+										<button
+											onClick={() => {
+												setShowOptions(false);
+												setShowModal(true);
+											}}
+											className="w-full flex justify-between items-center px-4 py-3 text-red-500 hover:bg-gray-100"
+										>
+											<span>삭제</span>
+											<Trash2 size={18} color="red" />
+										</button>
+									)}
+								</div>
+							)}
+						</div>
+
 					)}
 				</div>
 
