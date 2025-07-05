@@ -1,10 +1,14 @@
+import type { ReactNode } from 'react';
+
 interface CustomButtonProps {
-	text: string;
+	text?: string;
+	children?: ReactNode;
 	width?: string;
 	height?: string;
 	padding?: string;
 	backgroundColor?: string;
 	borderRadius?: string;
+	border?: string;
 	fontColor?: string;
 	onClick?: () => void;
 	variant?: 'primary' | 'secondary' | 'danger' | 'outline';
@@ -38,10 +42,12 @@ const variantStyles: Record<NonNullable<CustomButtonProps['variant']>, VariantSt
 
 export default function Button({
 	text,
+	children,
 	width = 'w-auto',
 	height = 'h-auto',
 	padding = 'px-4 py-2',
 	backgroundColor,
+	border,
 	borderRadius,
 	fontColor,
 	onClick,
@@ -54,13 +60,15 @@ export default function Button({
 		${backgroundColor ?? variantClass.bg}
 		${fontColor ?? variantClass.text}
 		${borderRadius ?? 'rounded-md'}
+		${border ?? 'border-0'}
 		${variantClass.border ?? ''}
-		transition hover:opacity-90 grid place-items-center border-0 focus:outline-none
+		transition hover:opacity-90 grid place-items-center
+		border-none outline-none ring-0 focus:ring-0 focus:outline-none focus:border-transparent
 	`.trim();
 
 	return (
 		<button className={className} onClick={onClick}>
-			{text}
+			{text ?? children}
 		</button>
 	);
 }
