@@ -13,7 +13,7 @@ type LoginTextFieldProps = {
     variant?: 'login' | 'signup';
 };
 
-const LoginTextField = ({
+const TextField = ({
     label,
     value,
     onChange,
@@ -28,17 +28,19 @@ const LoginTextField = ({
     const variantStyle = {
         login: {
             wrapper: 'w-[300px]',
-            input: 'h-[58px] px-4',
+            input: 'h-[58px] px-[19px] py-[15px]',
             radius: 'rounded-[8px]',
             font: 'text-base',
             border: 'border-[#000000] border-opacity-40',
+            placeholder: 'placeholder:text-[#33323699]',
         },
         signup: {
-            wrapper: 'w-[266px]',
+            wrapper: 'w-full',
             input: 'h-[48px] px-3 py-3',
             radius: 'rounded-[4px]',
             font: 'text-sm',
             border: 'border-[#000000] border-opacity-10',
+            placeholder: 'placeholder:text-[#CACAD0] ',
         },  
     };
 
@@ -52,14 +54,14 @@ const LoginTextField = ({
                     {required && <span>*</span>}
                 </label>
             )}
-            <div className={`flex items-center border border-[#333] border-opacity-20 rounded-[8px] px-3 py-3 bg-white`}>
+            <div className={`flex items-center text-base border bg-white ${style.border} ${style.radius} ${style.input}`}>
                 <input
                     type={type}
                     value={value}
                     onChange={onChange}
                     placeholder={placeholder}
                     disabled={disabled}
-                    className="flex-1 text-base bg-transparent outline-none placeholder:text-[#CACAD0]"
+                    className={`flex-1 ${style.font} bg-transparent outline-none placeholder:${style.placeholder}`}
                 />
             </div>
             {error && <span className="flex flex-start mt-[3px] text-[11px] text-[#838389]">{error}</span>}
@@ -67,4 +69,4 @@ const LoginTextField = ({
     );
 };
 
-export default LoginTextField;
+export default TextField;

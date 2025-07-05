@@ -2,7 +2,7 @@
 
 import { useNavigate } from 'react-router-dom';
 import Button from "../components/button";
-import LoginTextField from '../components/LoginTextField';
+import TextField from '../components/LoginTextField';
 
 export default function Home() {
 	const navigate = useNavigate();
@@ -16,16 +16,23 @@ export default function Home() {
 		<div className="flex flex-col items-center justify-start p-2">
 			<p className="mb-4 text-lg">여기는 홈화면~</p>
 
-			<LoginTextField
-				placeholder="이메일"
-				value="이메일을 입력하세요"
+			<TextField
+				
+				value="입력하세요"
 				onChange={handleChange}
-				type="email"
+				placeholder="이메일을 입력하세요"
+				variant="login"
 				required
-				width="w-[300px]"
-				error="올바르지 않은 이메일 형태입니다."
 			/>
 
+			<TextField
+				label="이메일"
+				value="입력하세요"
+				onChange={handleChange}
+				placeholder="이메일을 입력하세요"
+				variant="signup"
+				required
+			/>
 
 			<Button
 				text="마이페이지"
