@@ -1,8 +1,8 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { MessageCircle, User } from 'lucide-react';
 import family from '../assets/nav_family.svg';
+import { checkAuth } from './utils/checkAuth';
 
-// 기존 Footer가 NaviBar의 역할입니다.
 export default function Footer() {
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -11,6 +11,13 @@ export default function Footer() {
 	const isActive = (path: string) => location.pathname === path ? 'bg-[#CDE7EC]' : '';
 
 	if (path !== '/' && path !== '/my') return null;
+
+	const handleProtectedNavigation = async (targetPath: string) => {
+		const isAllowed = await checkAuth();
+		if (isAllowed) {
+			navigate(targetPath);
+		}
+	};
 
 	return (
 		<div
@@ -23,13 +30,13 @@ export default function Footer() {
 				className={`flex flex-col items-center cursor-pointer p-2`}
 			>
 				<div className={`flex items-center cursor-pointer p-2 rounded-full ${isActive('/')}`}>
-					{/* <MessageSquareText className="w-6 h-6" /> */}
 					<img src={family} alt="아이콘" className="w-6 h-6" />
 				</div>
 				<span className="text-sm mt-1 text-[#3F484A] font-bold">도란도란</span>
 			</div>
+
 			<div
-				onClick={() => navigate('/chat')}
+				onClick={() => handleProtectedNavigation('/chat')}
 				className={`flex flex-col items-center cursor-pointer p-2`}
 			>
 				<div className={`flex items-center cursor-pointer p-2 rounded-full ${isActive('/chat')}`}>
@@ -37,8 +44,9 @@ export default function Footer() {
 				</div>
 				<span className="text-sm mt-1 text-[#3F484A] font-bold">대화</span>
 			</div>
+
 			<div
-				onClick={() => navigate('/mypage')}
+				onClick={() => handleProtectedNavigation('/mypage')}
 				className={`flex flex-col items-center cursor-pointer p-2`}
 			>
 				<div className={`flex items-center cursor-pointer p-2 rounded-full ${isActive('/my')}`}>
