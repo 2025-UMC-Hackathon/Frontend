@@ -1,14 +1,32 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import Button from '../button';
 
 interface Props {
 	onNext: () => void;
+	role: string;
+	disability: string;
+	type: string;
+	setRole: (v: string) => void;
+	setDisability: (v: string) => void;
+	setType: (v: string) => void;
 }
 
-export default function Step1({ onNext }: Props) {
-	const [role, setRole] = useState('');
-	const [disability, setDisability] = useState('');
-	const [type, setType] = useState('');
+const disabilityMap: Record<string, string> = {
+	'눈': '시각',
+	'귀': '청각',
+	'신체': '신체적장애',
+	'머리': '지적장애',
+	'기타': '기타',
+	'발달': '발달장애',
+};
+
+const typeMap: Record<string, string> = {
+	'성인 장애인': '성인장애인',
+	'장애인 자녀를 둔 부모': '장애인자녀를둔부모',
+};
+
+
+export default function Step1({ onNext, role, setRole, disability, setDisability, type, setType }: Props) {
 
 	const isValid = role && disability && type;
 
@@ -46,7 +64,7 @@ export default function Step1({ onNext }: Props) {
 							fontWeight={style.fontWeight}
 							border={style.border}
 							borderRadius={style.borderRadius}
-							onClick={() => setRole(v)}
+							onClick={() => setRole(typeMap[v])}
 							width='w-1/2'
 							height='h-auto'
 							padding='p-2'
@@ -58,7 +76,7 @@ export default function Step1({ onNext }: Props) {
 			<p className="text-sm font-bold font-[#334B4E]">어떤 입장으로 오시게 되었나요?</p>
 			<div className="flex gap-2 flex-wrap">
 				{['눈', '귀', '신체', '머리', '기타'].map((v) => {
-					const style = getStyle(disability === v);
+					const style = getStyle(disability === disabilityMap[v]);
 					return (
 						<Button
 							key={v}
@@ -68,11 +86,12 @@ export default function Step1({ onNext }: Props) {
 							fontColor={style.fontColor}
 							fontWeight={style.fontWeight}
 							border={style.border}
-							onClick={() => setDisability(v)}
+							onClick={() => setDisability(disabilityMap[v])}
 							borderRadius={style.borderRadius}
 						/>
 					);
 				})}
+
 			</div>
 
 			<p className="text-sm font-bold font-[#334B4E]">어느 정도인가요?</p>
