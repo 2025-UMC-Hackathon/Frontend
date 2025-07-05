@@ -1,7 +1,22 @@
-export default function Login() {
-	return (
-		<div className="flex flex-col items-center justify-start p-2">
-			여기는 로그인 페이지~
-		</div>
-	);
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+
+
+
+
+
+
+
+
+
+const LoginPage = () => {
+    return (
+        <div>
+            <h1>LoginPage</h1>
+        </div>
+    )
 }
+                    
+
+
+export default LoginPage;
