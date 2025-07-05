@@ -53,7 +53,7 @@ export default function Step1({ onNext, role, setRole, disability, setDisability
 			<p className="text-sm font-bold font-[#334B4E]">어떤 입장으로 오시게 되었나요?</p>
 			<div className="w-full flex gap-2">
 				{['성인 장애인', '장애인 자녀를 둔 부모'].map((v) => {
-					const style = getStyle(role === v);
+					const style = getStyle(role === typeMap[v]);
 					return (
 						<Button
 							key={v}

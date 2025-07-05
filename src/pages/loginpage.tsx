@@ -16,12 +16,14 @@ export default function LoginPage() {
     if (!isActive) return;
   
     try {
-      const login = await serverCall('POST', `/auth/login`, { email, password: pw });
+      const login = await serverCall('POST', `/api/login`, { email, password: pw });
       const { isSuccess, code, message, result } = login;
       if (isSuccess && code === 'COMMON200') {
         const accessToken = result;
         localStorage.setItem('accessToken', accessToken);
         // 로그인 성공 처리 (예: 페이지 이동)
+        alert('로그인 성공!');
+        navigate('/');
         // navigate('/home');
       } else {
         alert('로그인 실패: ' + message);
