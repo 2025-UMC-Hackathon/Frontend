@@ -3,7 +3,7 @@ import { MessageCircle, Trash2 } from 'lucide-react';
 interface CommentType {
 	id: number;
 	nickname: string;
-	time: number;
+	time: string;
 	content: string;
 	isMine: boolean;
 }

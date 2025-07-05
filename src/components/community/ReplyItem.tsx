@@ -3,7 +3,7 @@ import { CornerDownRight, MessageCircle, Trash2 } from 'lucide-react';
 interface ReplyType {
 	id: number;
 	nickname: string;
-	time: number;
+	time: string;
 	content: string;
 	isMine: boolean;
 }
