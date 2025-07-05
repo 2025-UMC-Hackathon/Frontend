@@ -1,6 +1,8 @@
 import ic_landing_chat from '../../assets/ic_landing_chatting.svg';
 import { Heart } from 'lucide-react';
 import { Trash2 } from "lucide-react";
+import { useState } from 'react';
+import ConfirmDeleteModal from '../community/deleteModal';
 
 export type BoardItemProps = {
     title: string;
@@ -25,6 +27,9 @@ const BoardItem = ({
     onClick,
     type,
 }: BoardItemProps) => {
+    
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+
 
     const boardStyles = {
         container: "flex flex-col text-left bg-white w-full border-b border-[#D9D9D9]",
@@ -37,46 +42,72 @@ const BoardItem = ({
     };
 
     const pageStyles = {
-        container: "flex flex-col text-left bg-white w-full rounded-lg shadow-md mb-4",
-        content: "px-[20px] py-[16px]",
-        title: "text-[16px] font-bold mb-[12px] text-gray-800",
-        description: "text-[14px] font-medium mb-[12px] line-clamp-3 text-gray-600",
-        footer: "flex items-center justify-between text-[12px] text-gray-500",
-        info: "flex gap-[10px]",
-        comment: "flex items-center"
+        container: "flex flex-col text-left bg-white w-full mb-4",
+        content: "px-[24px] py-[14px]",
+        title: "text-base text-[#49454E]",
+        description: "text-[14px] line-clamp-3",
+        footer: "",
+        info: "",
+        comment: "",
+    };
+
+    const UnActivateLiked = () => {
+        console.log("좋아요 취소하기");
+    }
+
+    const ActivatedDeleted = (e: React.MouseEvent) => {
+        e.stopPropagation(); // 부모 클릭 방지
+        setDeleteModalOpen(true);
+    };
+
+    const handleDelete = () => {
+        setDeleteModalOpen(false);
+        // 실제 삭제 로직 추가
     };
 
     let rightIcon = null;
     if (type === 'liked'){
-        rightIcon = <Heart fill="#171D1E" />;
+        rightIcon = <Heart fill="#171D1E" onClick={UnActivateLiked} />;
     } else if (type === 'written'){
-        rightIcon = <Trash2 />;
+        rightIcon = <Trash2 onClick={ActivatedDeleted} />;
     }
 
     const styles = variant === 'board' ? boardStyles : pageStyles;
 
     return (
         <div className={`${styles.container} cursor-pointer`}  onClick={onClick}>
-            <div className={styles.content}>
-                <h2 className={styles.title}>{title}</h2>
-                <p className={styles.description}>
-                    {content}
-                </p>
-                <div className={styles.footer}>
-                    <div className={styles.info}>
-                        <span>{createdAt}</span>
-                        <span>|</span>
-                        <span>{nickname}</span>
-                    </div>
-                    
-                    <div className={styles.comment}>
-                        <img src={ic_landing_chat} alt="채팅 아이콘" />
-                        <span className="ml-[1.33px]">{commentNum}</span>
-                        {rightIcon}
-                    </div>
+            <div className={`${styles.content} flex items-center justify-between`} >
+                <div>
+                    <h2 className={styles.title}>{title}</h2>
+                    <p className={styles.description}>{content}</p>
                 </div>
+                {rightIcon && (
+                    <div className="ml-4 flex-shrink-0 flex items-center">
+                    {rightIcon}
+                    </div>
+                )}
+                { variant === 'board' && (
+                    <div className={styles.footer}>
+                        <div className={styles.info}>
+                            <span>{createdAt}</span>
+                            <span>|</span>
+                            <span>{nickname}</span>
+                        </div>
+                        
+                        <div className={styles.comment}>
+                            <img src={ic_landing_chat} alt="채팅 아이콘" />
+                            <span className="ml-[1.33px]">{commentNum}</span>
+                        </div>
+                    </div>
+                )}
             </div>
-            
+            {deleteModalOpen && (
+                <ConfirmDeleteModal
+                    onCancel={() => setDeleteModalOpen(false)}
+                    onConfirm={handleDelete}
+                />
+            )}
+                
         </div>
     );
 };
