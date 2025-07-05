@@ -25,14 +25,14 @@ export default function Step1({ onNext }: Props) {
 				backgroundColor: 'bg-white',
 				fontColor: 'text-[#3F484A]',
 				fontWeight: 'font-base',
-				border: 'border-1 border-gray-500',
+				border: 'border-1 border-[#BFC8CA]',
 				borderRadius: 'rounded-full'
 			};
 	};
 
 	return (
 		<div className="w-full flex flex-col gap-10 items-center justify-center">
-			<p className="text-base font-bold font-[#334B4E]">어떤 입장으로 오시게 되었나요?</p>
+			<p className="text-sm font-bold font-[#334B4E]">어떤 입장으로 오시게 되었나요?</p>
 			<div className="w-full flex gap-2">
 				{['성인 장애인', '장애인 자녀를 둔 부모'].map((v) => {
 					const style = getStyle(role === v);
@@ -55,7 +55,7 @@ export default function Step1({ onNext }: Props) {
 				})}
 			</div>
 
-			<p className="text-base font-bold font-[#334B4E]">어떤 입장으로 오시게 되었나요?</p>
+			<p className="text-sm font-bold font-[#334B4E]">어떤 입장으로 오시게 되었나요?</p>
 			<div className="flex gap-2 flex-wrap">
 				{['눈', '귀', '신체', '머리', '기타'].map((v) => {
 					const style = getStyle(disability === v);
@@ -75,7 +75,7 @@ export default function Step1({ onNext }: Props) {
 				})}
 			</div>
 
-			<p className="text-base font-bold font-[#334B4E]">어느 정도인가요?</p>
+			<p className="text-sm font-bold font-[#334B4E]">어느 정도인가요?</p>
 			<div className="flex gap-2">
 				{['심해요', '가벼운 정도예요'].map((v) => {
 					const style = getStyle(type === v);

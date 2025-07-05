@@ -12,17 +12,12 @@ export default function Home() {
 
 	return (
 		<div className="flex flex-col items-start">
-			<div className="w-[348px] h-[90px] bg-[#D9D9D9] rounded-[10px] shadow-[0_0_4px_rgba(0,0,0,0.25)] mx-auto mt-[38px]" />
-
-			
-			
-
-
+			{/* 배너 */}
+			<div className="w-[348px] h-[90px] bg-[#D9D9D9] rounded-[10px] shadow-[0_0_4px_rgba(0,0,0,0.25)] mx-auto mt-[14px]" />
 			<BoardList />
 
-			{/* 추후에 글 작성 페이지 경로로 수정해야 함!!!!!!! */}
 			<button
-				onClick={()=>navigate("/my")}
+				onClick={()=>navigate("/write")}
 				className="
 					fixed bottom-[110px] left-1/2 transform -translate-x-1/2
 					w-[135px] h-[48px] bg-[#CACAD0]

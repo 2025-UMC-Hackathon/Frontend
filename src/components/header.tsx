@@ -1,24 +1,45 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Button from "./button";
+import logo from '../assets/logo_example.svg';
+import { ArrowLeft } from 'lucide-react';
 
 export default function Header() {
 	const navigate = useNavigate();
+	const location = useLocation();
+	const path = location.pathname;
 
+	// splash, login 페이지에서는 Header 숨김
+	if (path === '/splash' || path === '/login') return null;
+
+	// 경로별 텍스트
+	const backTextMap: Record<string, string> = {
+		'/signup': '회원가입',
+		'/community': '커뮤니티',
+		'/write': '글 작성하기',
+		'/chat': '대화'
+	};
+
+	// 뒤로가기 버튼이 필요한 경로
+	if (backTextMap[path]) {
+		return (
+			<div className="bg-white p-3 flex items-center h-16">
+				<button
+					className="bg-white text-xl font-basic flex items-center gap-2"
+					onClick={() => navigate(-1)}
+				>
+					<span className="text-lg"><ArrowLeft size={20} color="#000" /></span>
+					<span>{backTextMap[path]}</span>
+				</button>
+			</div>
+		);
+	}
+
+	// 기본 로고 헤더 ("/"인 경우)
 	return (
-		<div className="bg-white dark:bg-gray-900 shadow-md p-3 flex justify-between items-center h-16">
-			<span className="text-xl font-bold text-gray-800 dark:text-white">
-				서비스명
-			</span>
-
-			<Button
-				text="마이페이지"
-				width="w-30"
-				height="h-10"
-				backgroundColor="bg-green-600"
-				borderRadius="rounded-full"
-				fontColor="text-white"
-				onClick={() => navigate('/my')}
-			/>
+		<div className="bg-white p-3 flex justify-center items-center h-16">
+			<Button width="w-auto" padding="p-0" backgroundColor="bg-0" onClick={() => { navigate('/') }}>
+				<img src={logo} alt="아이콘" className="w-[70px] h-[20px]" />
+			</Button>
 		</div>
 	);
 }
