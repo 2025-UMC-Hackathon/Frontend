@@ -27,7 +27,18 @@
     // "noUncheckedSideEffectImports": true
     "types": [
       "node"
-    ]
+    ],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./types"
+    ],
+    // "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "react-mobile-picker-scroll": [
+        "types/react-mobile-picker-scroll"
+      ]
+    }
   },
   "include": [
     "src"
