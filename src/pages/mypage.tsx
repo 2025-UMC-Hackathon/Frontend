@@ -1,5 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import BoardItem from '../components/board/BoardItem';
+import { Heart } from 'lucide-react';
+import { ClipboardList } from 'lucide-react';
+
 
 export default function MyPage() {
 	const navigate = useNavigate();
@@ -21,28 +24,29 @@ export default function MyPage() {
 						onClick={handleWrittenByMe}
 						className="flex-1 bg-blue-500 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-600 transition-colors"
 					>
+						<ClipboardList size={20} color="#000"/>
 						내가 작성한 글
 					</button>
 					<button
 						onClick={handleLikedByMe}
 						className="flex-1 bg-gray-200 text-gray-700 py-3 px-4 rounded-lg font-medium hover:bg-gray-300 transition-colors"
 					>
+						<Heart size={20} color="#000"/>
 						좋아요
 					</button>
 
 					
 				</div>
 				<BoardItem
-                            key="1"
-                            title="내가 쓴 글"
-                            content="내용"
-                            createdAt="5분 전"
-                            nickname="이름"
-                            disabilityType="타입"
-                            worry="고민 거리"
-                
-                            variant='page'
-                        />
+                    key="1"
+                    title="내가 쓴 글"
+                    content="내용"
+                    createdAt="5분 전"
+                    nickname="이름"
+                    disabilityType="타입"
+                    worry="고민 거리"
+					variant='page'
+                />
 			</div>
 		</div>
 	);
