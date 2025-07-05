@@ -73,7 +73,7 @@ export default function LoginPage() {
           <input
             value={email}
             onChange={e => setEmail(e.target.value)}
-            placeholder="dodam123@dodam.com"
+            placeholder="이메일 주소"
             type="email"
             // --- 3. 동적 className 적용 ---
             className={clsx(

@@ -12,6 +12,7 @@ type TextFieldProps = {
     error?: string;
     variant?: 'login' | 'signup';
     rightIcon?: React.ReactNode;
+
 };
 
 const TextField = ({
