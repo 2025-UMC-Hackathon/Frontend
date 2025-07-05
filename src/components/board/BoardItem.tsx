@@ -1,4 +1,6 @@
 import ic_landing_chat from '../../assets/ic_landing_chatting.svg';
+import { Heart } from 'lucide-react';
+import { Trash2 } from "lucide-react";
 
 export type BoardItemProps = {
     title: string;
@@ -10,6 +12,7 @@ export type BoardItemProps = {
     commentNum?: number;
     variant?: 'board' | 'page';
     onClick: ()=>void;
+    type?: 'liked' | 'written' | 'undefined';
 };
 
 const BoardItem = ({
@@ -20,6 +23,7 @@ const BoardItem = ({
     commentNum,
     variant = 'board',
     onClick,
+    type,
 }: BoardItemProps) => {
 
     const boardStyles = {
@@ -42,6 +46,13 @@ const BoardItem = ({
         comment: "flex items-center"
     };
 
+    let rightIcon = null;
+    if (type === 'liked'){
+        rightIcon = <Heart />;
+    } else if (type === 'written'){
+        rightIcon = <Trash2 />;
+    }
+
     const styles = variant === 'board' ? boardStyles : pageStyles;
 
     return (
@@ -61,6 +72,7 @@ const BoardItem = ({
                     <div className={styles.comment}>
                         <img src={ic_landing_chat} alt="채팅 아이콘" />
                         <span className="ml-[1.33px]">{commentNum}</span>
+                        {rightIcon}
                     </div>
                 </div>
             </div>
