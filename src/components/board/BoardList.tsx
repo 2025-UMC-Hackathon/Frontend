@@ -4,7 +4,7 @@ import TagDropdown from '../dropdown'; // 기존 dropdown.tsx import
 import type { BoardItemProps } from './BoardItem';
 import { dummyBoard } from '../../../mockdata/dummyBoard';
 
-export const BoardList = () => {
+const BoardList = () => {
     const [selectedDisabilityType, setSelectedDisabilityType] = useState<string[]>([]);
     const [selectedWorry, setSelectedWorry] = useState<string[]>([]);
 
@@ -44,22 +44,28 @@ export const BoardList = () => {
     return (
         <div className="w-full">
             {/* 필터 섹션 */}
-            <div className="flex items-center gap-[11px] mb-[18px] ml-[18px] mt-[38px]">
-                <TagDropdown
-                    tags={allDisabilityTypes}
-                    selectedTags={selectedDisabilityType}
-                    onTagChange={setSelectedDisabilityType}
-                    selectionMode="single"
-                    placeholder="장애 유형"
-                />
+            <div className="flex items-center justify-between gap-[11px] mb-[18px] ml-[18px] mt-[32px]">
+                <span className="text-[14px] leading-[20px] font-semibold text-[#171D1E]">
+                    게시물
+                </span>
+                <div className="flex gap-1">
+                    <TagDropdown
+                        tags={allDisabilityTypes}
+                        selectedTags={selectedDisabilityType}
+                        onTagChange={setSelectedDisabilityType}
+                        selectionMode="single"
+                        placeholder="장애 유형"
+                    />
+                    
+                    <TagDropdown
+                        tags={allWorries}
+                        selectedTags={selectedWorry}
+                        onTagChange={setSelectedWorry}
+                        selectionMode="single"
+                        placeholder="고민"
+                    />
+                </div>
                 
-                <TagDropdown
-                    tags={allWorries}
-                    selectedTags={selectedWorry}
-                    onTagChange={setSelectedWorry}
-                    selectionMode="single"
-                    placeholder="고민"
-                />
             </div>
 
             {/* 게시글 목록 */}
@@ -74,6 +80,7 @@ export const BoardList = () => {
                             nickname={item.nickname}
                             disabilityType={item.disabilityType}
                             worry={item.worry}
+                            commentNum={item.commentNum}
                         />
                     ))
                 ) : (
@@ -85,3 +92,5 @@ export const BoardList = () => {
         </div>
     );
 };
+
+export default BoardList;

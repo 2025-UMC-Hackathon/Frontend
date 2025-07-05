@@ -9,7 +9,8 @@ export const dummyBoard: BoardItemProps[] = [
     createdAt: "2025-07-01",
     nickname: "희망이엄마",
     disabilityType: "치매",
-    worry: "건강관리"
+    worry: "건강관리",
+    commentNum: 32,
   },
   {
     title: "외출이 조금 두려워요",
@@ -17,7 +18,9 @@ export const dummyBoard: BoardItemProps[] = [
     createdAt: "2025-07-03",
     nickname: "편안한하루",
     disabilityType: "치매",
-    worry: "외출"
+    worry: "외출",
+    commentNum: 32,
+
   },
   {
     title: "요즘 기억력이 너무 안 좋아졌어요",
@@ -25,7 +28,8 @@ export const dummyBoard: BoardItemProps[] = [
     createdAt: "2025-06-28",
     nickname: "은빛나무",
     disabilityType: "기억력장애",
-    worry: "의사소통"
+    worry: "의사소통",
+    commentNum: 32,
   },
   {
     title: "우리 아들이 자꾸 화를 내요",
