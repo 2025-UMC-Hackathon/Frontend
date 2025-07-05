@@ -15,28 +15,29 @@ export default function MyPage() {
 	};
 
 	return (
-		<div className="flex flex-col items-center justify-start p-2">
-			<div className="w-full max-w-md">
+		<div className="flex flex-col w-full">
 				{/* 탭 버튼들 */}
-				<div className="flex gap-2 mb-4">
+				<div className="flex flex-col mx-[28px]">
 					<button
 						onClick={handleWrittenByMe}
-						className="flex-1 bg-blue-500 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-600 transition-colors"
+						className="bg-white p-[16px] font-medium cursor-pointer transition duration-200 active:bg-[#1D1B201A]"
 					>
-						<ClipboardList size={20} color="#000"/>
-						내가 작성한 글
+						<div className="flex items-center">
+							<ClipboardList size={20} color="#171D1E"/>
+							<span className="text-[#3F484A] ml-[12px]">내가 작성한 게시물</span>
+						</div>
+						
 					</button>
 					<button
 						onClick={handleLikedByMe}
-						className="flex-1 bg-gray-200 text-gray-700 py-3 px-4 rounded-lg font-medium hover:bg-gray-300 transition-colors"
+						className="bg-white p-[16px] font-medium cursor-pointer transition duration-300 active:bg-[#1D1B201A]"
 					>
-						<Heart size={20} color="#000"/>
-						좋아요
+						<div className="flex items-center">
+							<Heart size={20} color="#171D1E"/>
+							<span className="text-[#3F484A] ml-[12px]">공감한 게시물</span>
+						</div>						
 					</button>
-
-					
 				</div>
 			</div>
-		</div>
 	);
 }

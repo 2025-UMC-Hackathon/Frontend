@@ -48,7 +48,7 @@ const BoardItem = ({
 
     let rightIcon = null;
     if (type === 'liked'){
-        rightIcon = <Heart />;
+        rightIcon = <Heart fill="#171D1E" />;
     } else if (type === 'written'){
         rightIcon = <Trash2 />;
     }
