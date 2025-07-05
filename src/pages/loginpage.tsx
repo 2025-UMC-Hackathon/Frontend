@@ -3,13 +3,37 @@ import { useNavigate } from 'react-router-dom';
 import Button from '../components/button';
 import clsx from 'clsx'; 
 import logoImage from '../assets/Logo.svg'; 
+import { serverCall } from '../components/utils/serverCall';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [pw, setPw] = useState('');
   const navigate = useNavigate();
 
-  // --- 1. 상태 관리 추가 ---
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    validateEmail();
+    if (!isActive) return;
+  
+    try {
+      const login = await serverCall('POST', `/auth/login`, { email, password: pw });
+      const { isSuccess, code, message, result } = login;
+      if (isSuccess && code === 'COMMON200') {
+        const accessToken = result;
+        localStorage.setItem('accessToken', accessToken);
+        // 로그인 성공 처리 (예: 페이지 이동)
+        // navigate('/home');
+      } else {
+        alert('로그인 실패: ' + message);
+      }
+    } catch (error) {
+      alert('로그인 중 오류가 발생했습니다.');
+    }
+  };
+  
+  
+  
+  
   // 포커스 상태
   const [isEmailFocused, setIsEmailFocused] = useState(false);
   const [isPwFocused, setIsPwFocused] = useState(false);
@@ -33,12 +57,7 @@ export default function LoginPage() {
     }
   };
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    validateEmail(); // 로그인 버튼 클릭 시에도 유효성 검사
-    if (!isActive) return;
-    // ... 로그인 로직
-  };
+  
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-white px-4">
