@@ -13,6 +13,8 @@ interface CustomButtonProps {
 	fontWeight?: string;
 	onClick?: () => void;
 	variant?: 'primary' | 'secondary' | 'danger' | 'outline';
+	disabled?: boolean;
+	style?: React.CSSProperties;
 }
 
 type VariantStyle = {

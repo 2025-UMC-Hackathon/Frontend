@@ -46,6 +46,7 @@ export default function MyPage() {
                     disabilityType="타입"
                     worry="고민 거리"
 					variant='page'
+					onClick={()=>navigate('/community')}
                 />
 			</div>
 		</div>

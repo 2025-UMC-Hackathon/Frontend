@@ -9,6 +9,7 @@ export type BoardItemProps = {
     worry?: string;
     commentNum?: number;
     variant?: 'board' | 'page';
+    onClick: ()=>void;
 };
 
 const BoardItem = ({
@@ -18,6 +19,7 @@ const BoardItem = ({
     nickname,
     commentNum,
     variant = 'board',
+    onClick,
 }: BoardItemProps) => {
 
     const boardStyles = {
@@ -43,7 +45,7 @@ const BoardItem = ({
     const styles = variant === 'board' ? boardStyles : pageStyles;
 
     return (
-        <div className={styles.container}>
+        <div className={`${styles.container} cursor-pointer`}  onClick={onClick}>
             <div className={styles.content}>
                 <h2 className={styles.title}>{title}</h2>
                 <p className={styles.description}>
