@@ -16,7 +16,10 @@ export default function Header() {
 		'/signup': '회원가입',
 		'/community': '커뮤니티',
 		'/write': '글 작성하기',
-		'/chat': 'AI 채팅'
+		'/chat': 'AI 채팅',
+		'/mypage': '마이페이지',
+		'/writtedbyme': '내가 작성한 글',
+		'/likedbyme': '좋아요 한 게시물',
 	};
 
 	// 뒤로가기 버튼이 필요한 경로

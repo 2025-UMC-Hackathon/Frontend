@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import Splash from './pages/splashpage';
 import Home from './pages/homepage';
-import My from './pages/mypage';
+import MyPage from './pages/mypage';
 import Signup from './pages/signuppage';
 import Login from './pages/loginpage';
 import Community from './pages/communitypage';
@@ -21,7 +21,7 @@ export default function App() {
         {/* 당장 스플래쉬 화면이 중요한 것은 아니니 일단은 home을 /경로로 삼았습니다. */}
         <Route path="/splash" element={<Splash />} />
         <Route path="/" element={<Home />} />
-        <Route path="/my" element={<My />} />
+        <Route path="/mypage" element={<MyPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         {/* 글 상세 페이지 */}
