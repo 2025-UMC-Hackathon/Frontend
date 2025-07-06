@@ -39,14 +39,15 @@ interface PostDetailResponse {
   result: PostDetail;
 }
 
-export const usePosts = (tags: string[], size: number = 10) => {
+export const usePosts = (tags: string[], types: string[], size: number = 10) => {
   return useInfiniteQuery<PostResponse, Error>({
-    queryKey: ["infinitePosts", tags, size],
+    queryKey: ["infinitePosts", tags, types, size],
     initialPageParam: "-1",
     queryFn: async ({ pageParam }) => {
       const cursor = typeof pageParam === 'string' ? pageParam : '-1';
       const params = new URLSearchParams();
       tags.forEach(tag => params.append('tags', tag));
+      types.forEach(type => params.append('types', type)); 
       params.append('cursor', cursor);
       params.append('size', size.toString());
       const response: ApiResponse = await serverCall(
@@ -58,6 +59,7 @@ export const usePosts = (tags: string[], size: number = 10) => {
     getNextPageParam: (lastPage) => lastPage.cursor,
   });
 };
+
 
 export const usePostDetail = (postId: number) => {
   return useQuery<PostDetailResponse, Error>({

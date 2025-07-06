@@ -1,17 +1,33 @@
 import { useState, useEffect, useRef } from 'react';
 import BoardItem from './BoardItem';
-import { disabilityType, worryType } from '../write/mockData';
+
 import { ChevronDown } from 'lucide-react';
 import { usePosts } from './usePost';
 import { useNavigate } from 'react-router-dom';
+// import { disabilityType, worryType } from '../write/mockData';
 
 const BoardList = () => {
     const [openType, setOpenType] = useState<'disability' | 'worry' | null>(null);
     const [selectedDisabilityType, setSelectedDisabilityType] = useState<string | null>(null);
     const [selectedWorry, setSelectedWorry] = useState<string | null>(null);
 
-    const tags = [selectedDisabilityType, selectedWorry].filter(Boolean) as string[];
-    const tagQuery = tags.length > 0 ? tags : [];
+    const DISABILITY_TAGS = [
+        '시각', '청각', '신체적장애', '지적장애', '발달장애', '기타'
+        ];
+    const WORRY_TAGS = ['식사', '진로', '의료', '행동'];
+
+
+    const tags: string[] = [];
+    const types: string[] = [];
+
+    if (selectedDisabilityType) {
+        types.push(selectedDisabilityType);
+    }
+    if (selectedWorry) {
+        tags.push(selectedWorry);
+    }
+
+
 
     const {
         data,
@@ -19,13 +35,13 @@ const BoardList = () => {
         hasNextPage,
         isFetchingNextPage,
         isLoading,
-    } = usePosts(tagQuery, 10);
+    } = usePosts(tags, types, 10);
 
     const posts = data?.pages.flatMap(page => page.posts) ?? [];
 
-    useEffect(() => {
-  console.log("posts:", posts.map(p => p.id));
-}, [posts]);
+        useEffect(() => { 
+            console.log("posts:", posts.map(p => p.id));
+    }, [posts]);
 
 
     const sentinelRef = useRef<HTMLDivElement | null>(null);
@@ -82,7 +98,7 @@ const BoardList = () => {
                     </div>
                     {openType === 'disability' && (
                         <div className="absolute top-full mt-1 left-0 bg-white border shadow-lg rounded-md w-full min-w-max z-10">
-                            {disabilityType.map((item) => (
+                            {DISABILITY_TAGS.map((item) => (
                                 <div
                                     key={item}
                                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
@@ -109,7 +125,7 @@ const BoardList = () => {
                     </div>
                     {openType === 'worry' && (
                         <div className="absolute top-full mt-1 left-0 bg-white border shadow-lg rounded-md w-full min-w-max z-10">
-                            {worryType.map((item) => (
+                            {WORRY_TAGS.map((item) => (
                                 <div
                                     key={item}
                                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
