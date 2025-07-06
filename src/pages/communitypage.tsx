@@ -31,6 +31,7 @@ interface CommentType {
 	content: string;
 	time: string;
 	isMine: boolean;
+	createdAtText: string;
 }
 
 const postId = 1;
