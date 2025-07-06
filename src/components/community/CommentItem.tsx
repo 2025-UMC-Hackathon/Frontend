@@ -3,9 +3,10 @@ import { MessageCircle, Trash2 } from 'lucide-react';
 interface CommentType {
 	id: number;
 	nickname: string;
-	time: number;
+	time: string;
 	content: string;
 	isMine: boolean;
+	createdAtText: string;
 }
 
 export default function CommentItem({
@@ -22,7 +23,7 @@ export default function CommentItem({
 			<div className="w-full flex items-start justify-between text-sm font-semibold">
 				<div className="flex items-center">
 					{comment.nickname}
-					<span className="text-xs text-gray-500 ml-1">{comment.time}분 전</span>
+					<span className="text-xs text-gray-500 ml-1">{comment.time}</span>
 				</div>
 				<div className="flex items-center">
 					<button className="p-2 bg-transparent" onClick={onReply}>

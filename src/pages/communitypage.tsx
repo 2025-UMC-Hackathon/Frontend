@@ -7,7 +7,8 @@ import { fetchPost } from '../components/community/func/fetchPost';
 import { fetchComment } from '../components/community/func/fetchComment';
 import PostContent from '../components/community/PostContent';
 import CommentSection from '../components/community/CommentSection';
-import { mockData } from '../components/community/mockData';
+import { convertToCommentTypeTuple } from '../components/community/func/conver';
+import { serverCall } from '../components/utils/serverCall';
 
 interface PostData {
 	id: number;
@@ -24,52 +25,126 @@ interface PostData {
 	comments: number;
 }
 
-interface CommentData {
+interface CommentType {
 	id: number;
 	nickname: string;
 	content: string;
-	userId: number;
-	postId: number;
-	parentId: number;
-	writeDate: string;
-	createdAt: string;
-	children: CommentData[]; // 재귀 형태
+	time: string;
+	isMine: boolean;
 }
 
 const postId = 1;
+const currentUserId = 6; // 실제 로그인된 사용자 ID로 교체 필요
 
 export default function Community() {
 	const [post, setPost] = useState<PostData | null>(null);
-	const [comment, setComment] = useState<CommentData[] | null>(null);
+	const [comment, setComment] = useState<[CommentType, CommentType[]][]>([]);
 	const [commentInput, setCommentInput] = useState('');
 	const [replyTo, setReplyTo] = useState<string | null>(null);
 	const [showModal, setShowModal] = useState(false);
+	const [deleteTargetId, setDeleteTargetId] = useState<number | null>(null);
 
-	// 부모 컴포넌트에서 모든 데이터를 호출하고 자식들에게 props 전달한다 
-	// 1. 본문 데이터 페칭 
+	// 게시글 데이터 불러오기
 	useEffect(() => {
 		fetchPost({ postId })
-			.then((data) => {
-				if (data) setPost(data);
+			.then((raw) => {
+				if (raw) {
+					const createdAt = new Date(raw.createdAt);
+					const writeTime = {
+						hour: createdAt.getHours(),
+						minute: createdAt.getMinutes(),
+						second: createdAt.getSeconds(),
+					};
+
+					const convertedPost: PostData = {
+						id: raw.id,
+						nickname: raw.nickname,
+						writeDate: raw.createdAt.split('T')[0],
+						writeTime,
+						title: raw.title,
+						content: raw.content,
+						likes: raw.likes,
+						comments: raw.commentCnt,
+					};
+
+					setPost(convertedPost);
+				}
 			})
 			.catch((err) => console.error('게시글 불러오기 실패:', err));
 	}, []);
-	// 2. 댓글 데이터 페칭 
+
+	// 댓글 데이터 불러오기
+	const loadComments = async () => {
+		try {
+			const data = await fetchComment({ postId });
+			if (data) {
+				const converted = convertToCommentTypeTuple(data, currentUserId);
+				setComment(converted);
+			} else {
+				setComment([]);
+			}
+		} catch (err) {
+			console.error('댓글 목록 불러오기 실패:', err);
+			setComment([]);
+		}
+	};
+
 	useEffect(() => {
-		fetchComment({ postId })
-			.then((data) => {
-				if (data) setComment(data);
-			})
-			.catch((err) => console.error('댓글 목록 불러오기 실패:', err));
+		loadComments();
 	}, []);
 
-	const handleCancelReply = () => setReplyTo(null);
+	// 댓글 작성
+	const handleSubmitComment = async () => {
+		if (!commentInput.trim()) return;
 
-	// 3. 삭제 기능 구현 필요 
-	const handleDelete = () => {
-		setShowModal(false);
-		toast.success('삭제되었습니다.');
+		try {
+			const parentId = localStorage.getItem('parentId');
+			const query: Record<string, any> = {
+				postId,
+				content: commentInput.trim(),
+			};
+			if (parentId) query.parentId = parentId;
+
+			const searchParams = new URLSearchParams(query).toString();
+			const urlWithParams = `/api/comments?${searchParams}`;
+
+			await serverCall('POST', urlWithParams);
+
+			toast.success('댓글이 등록되었습니다');
+
+			await loadComments();
+			setCommentInput('');
+			setReplyTo(null);
+			localStorage.removeItem('parentId');
+		} catch (error) {
+			console.error('댓글 등록 실패:', error);
+			toast.error('댓글 등록에 실패했습니다.');
+		}
 	};
+
+
+	const handleCancelReply = () => {
+		setReplyTo(null);
+		localStorage.removeItem('parentId');
+	};
+
+	const handleDelete = async () => {
+		if (deleteTargetId === null) return;
+
+		try {
+			await serverCall('DELETE', `/api/comments/${deleteTargetId}`);
+			toast.success('댓글이 삭제되었습니다.');
+
+			await loadComments();
+			setDeleteTargetId(null);
+		} catch (error) {
+			console.error('댓글 삭제 실패:', error);
+			toast.error('댓글 삭제에 실패했습니다.');
+		} finally {
+			setShowModal(false);
+		}
+	};
+
 
 	return (
 		<div className="flex flex-col min-h-screen">
@@ -78,9 +153,15 @@ export default function Community() {
 			)}
 
 			<CommentSection
-				comments={mockData.comment}
-				onReply={(nickname) => setReplyTo(nickname)}
-				onDelete={() => setShowModal(true)}
+				comments={comment}
+				onReply={(nickname, parentId) => {
+					setReplyTo(nickname);
+					localStorage.setItem('parentId', parentId.toString());
+				}}
+				onDelete={(commentId) => {
+					setDeleteTargetId(commentId);
+					setShowModal(true);
+				}}
 			/>
 
 			{/* 답글 안내 표시 */}
@@ -104,14 +185,23 @@ export default function Community() {
 						placeholder="댓글을 입력하세요"
 						className="flex-1 bg-[#F5F5F5] rounded-lg px-3 py-2 text-sm focus:outline-none"
 					/>
-					<button className="bg-white text-gray-400 px-4 py-2 rounded-lg text-sm">
+					<button
+						onClick={handleSubmitComment}
+						className="bg-white text-gray-400 px-4 py-2 rounded-lg text-sm"
+					>
 						<Send size={20} />
 					</button>
 				</div>
 			</div>
 
 			{showModal && (
-				<ConfirmDeleteModal onCancel={() => setShowModal(false)} onConfirm={handleDelete} />
+				<ConfirmDeleteModal
+					onCancel={() => {
+						setShowModal(false);
+						setDeleteTargetId(null);
+					}}
+					onConfirm={handleDelete}
+				/>
 			)}
 		</div>
 	);

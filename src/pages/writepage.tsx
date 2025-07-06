@@ -37,11 +37,12 @@ export default function Write() {
           const res = await serverCall('POST', '/api/post', {
             title,
             content,
-            selectedDisability,
-            selectedWorry,
+            types:[selectedDisability],
+            tags:[selectedWorry],
           });
           // 성공 시 처리 (예: 페이지 이동, 알림 등)
-          console.log('게시글 등록 성공:', res);
+          alert('게시글 등록 성공.');
+          console.log(res);
           navigate('/');
           // 예시: navigate('/community');
         } catch (error) {
@@ -149,13 +150,14 @@ export default function Write() {
 				<button
                     type="submit"
 					disabled={!isFormValid}
-					className={`fixed w-[338px] h-[56px]  rounded-full text-sm font-semibold ${isFormValid ? 'bg-[#CDE7EC] text-[#334B4E]' : 'bg-[#171D1E]/10 text-[#171D1E]/9'
+					className={`fixed bottom-6 left-1/2 -translate-x-1/2 w-[338px] h-[56px]  rounded-full text-sm font-semibold ${isFormValid ? 'bg-[#CDE7EC] text-[#334B4E]' : 'bg-[#171D1E]/10 text-[#171D1E]/9'
 						}`}
 				>
 					등록하기
 				</button>
                 </form>
 			</div>
+            
 		</div>
 	);
 }
