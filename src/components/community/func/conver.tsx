@@ -18,6 +18,7 @@ interface CommentData {
 	createdAt: string;
 	time: string;
 	children: CommentData[]; // 재귀 형태
+	createdAtText: string;
 }
 
 export const convertToCommentTypeTuple = (
@@ -29,7 +30,7 @@ export const convertToCommentTypeTuple = (
 			id: parent.id,
 			nickname: parent.userNickname,
 			content: parent.content,
-			time: parent.time,
+			time: parent.createdAtText,
 			isMine: parent.userId === currentUserId,
 		};
 
@@ -37,7 +38,7 @@ export const convertToCommentTypeTuple = (
 			id: child.id,
 			nickname: child.userNickname,
 			content: child.content,
-			time: child.time,
+			time: child.createdAtText,
 			isMine: child.userId === currentUserId,
 		}));
 

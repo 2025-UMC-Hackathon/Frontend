@@ -42,6 +42,7 @@ export default function Community() {
 	const [commentInput, setCommentInput] = useState('');
 	const [replyTo, setReplyTo] = useState<string | null>(null);
 	const [showModal, setShowModal] = useState(false);
+	const [deleteTargetId, setDeleteTargetId] = useState<number | null>(null);
 
 	// 게시글 데이터 불러오기
 	useEffect(() => {
@@ -127,10 +128,23 @@ export default function Community() {
 		localStorage.removeItem('parentId');
 	};
 
-	const handleDelete = () => {
-		setShowModal(false);
-		toast.success('삭제되었습니다.');
+	const handleDelete = async () => {
+		if (deleteTargetId === null) return;
+
+		try {
+			await serverCall('DELETE', `/api/comments/${deleteTargetId}`);
+			toast.success('댓글이 삭제되었습니다.');
+
+			await loadComments();
+			setDeleteTargetId(null);
+		} catch (error) {
+			console.error('댓글 삭제 실패:', error);
+			toast.error('댓글 삭제에 실패했습니다.');
+		} finally {
+			setShowModal(false);
+		}
 	};
+
 
 	return (
 		<div className="flex flex-col min-h-screen">
@@ -144,7 +158,10 @@ export default function Community() {
 					setReplyTo(nickname);
 					localStorage.setItem('parentId', parentId.toString());
 				}}
-				onDelete={() => setShowModal(true)}
+				onDelete={(commentId) => {
+					setDeleteTargetId(commentId);
+					setShowModal(true);
+				}}
 			/>
 
 			{/* 답글 안내 표시 */}
@@ -178,7 +195,13 @@ export default function Community() {
 			</div>
 
 			{showModal && (
-				<ConfirmDeleteModal onCancel={() => setShowModal(false)} onConfirm={handleDelete} />
+				<ConfirmDeleteModal
+					onCancel={() => {
+						setShowModal(false);
+						setDeleteTargetId(null);
+					}}
+					onConfirm={handleDelete}
+				/>
 			)}
 		</div>
 	);

@@ -24,7 +24,7 @@ export default function ReplyItem({
 				<div className="w-full flex justify-between text-sm font-semibold">
 					<div className="flex items-center">
 						{reply.nickname}
-						<span className="text-xs text-gray-500 ml-1">{reply.time}분 전</span>
+						<span className="text-xs text-gray-500 ml-1">{reply.time}</span>
 					</div>
 					<div className="flex items-center">
 						<button className="p-2 bg-transparent" onClick={onReply}>
